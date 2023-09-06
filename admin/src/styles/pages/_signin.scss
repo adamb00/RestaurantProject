@@ -1,0 +1,25 @@
+.signin {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   height: 100vh;
+   background-color: $color-grey-light-1;
+
+   &__form {
+      display: flex;
+      flex-direction: column;
+      gap: 4rem;
+      align-items: center;
+      width: 80%;
+      padding: 5rem;
+      box-shadow: $default-box-shadow;
+   }
+   &__form--error {
+      gap: 2rem;
+      &-message {
+         color: $color-error;
+         font-size: 1.4rem;
+      }
+   }
+}

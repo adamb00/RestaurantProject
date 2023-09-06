@@ -1,0 +1,49 @@
+.table {
+   border-collapse: collapse;
+   color: currentColor;
+   display: inline-block;
+   height: 68vh;
+   overflow-y: scroll;
+
+   &__head {
+      background-color: $color-primary-tint;
+      position: sticky;
+      top: 0;
+      width: 100vw;
+   }
+   &__row {
+      width: 100%;
+
+      &:nth-child(odd) {
+         background-color: $color-primary;
+      }
+      &--active {
+         background-color: $color-secondary-shade !important;
+      }
+   }
+   &__body {
+      height: 2vh;
+   }
+   &__group {
+      width: 100vw;
+      display: flex;
+   }
+
+   &__data {
+      padding: 1rem 2.5rem;
+      text-align: center;
+
+      &--message {
+         background-color: $color-primary-shade;
+         height: 30vh;
+      }
+
+      &--group {
+         display: flex;
+         overflow: scroll;
+      }
+      &--item {
+         border: 1px solid red;
+      }
+   }
+}

@@ -1,0 +1,26 @@
+.settings-navigation {
+   height: $navigation-height;
+   margin-bottom: 2rem;
+   &__list {
+      display: flex;
+      background-color: $color-primary-shade;
+      list-style-type: none;
+      justify-content: space-between;
+   }
+   &__link {
+      padding: 1rem;
+      display: flex;
+      flex-wrap: nowrap;
+   }
+
+   &__item {
+      text-decoration: none;
+      color: currentColor;
+      font-size: 1.6rem;
+      padding: 1rem 2rem;
+      &:hover {
+         color: $color-grey-dark-2;
+         background-color: $color-secondary-tint;
+      }
+   }
+}

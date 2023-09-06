@@ -1,0 +1,18 @@
+.home {
+   position: relative;
+   display: grid;
+   grid-template-columns: 0.4fr 2fr;
+   grid-template-rows: auto 1fr;
+   grid-template-areas:
+      'nav navbar'
+      'nav main';
+   height: 100vh;
+   background-color: $color-primary-tint;
+   font-size: $default-font-size;
+
+   &__closed {
+      grid-template-columns: 0.3fr 4fr;
+   }
+
+   transition: all 0.5s;
+}

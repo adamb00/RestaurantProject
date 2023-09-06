@@ -1,0 +1,21 @@
+@import './abstracts/variables';
+@import './abstracts/animations';
+
+@import './base/base';
+@import './base/typography';
+
+@import './pages/signin';
+@import './pages/home';
+@import './pages/reservation';
+@import './pages/settings';
+
+@import './components/button';
+@import './components/user-input';
+@import './components/menu';
+@import './components/navbar';
+@import './components/table';
+@import './components/paginator';
+@import './components/loader';
+@import './components/settings-navigation';
+@import './components/foods/create-food';
+@import './components/foods/edit-food';

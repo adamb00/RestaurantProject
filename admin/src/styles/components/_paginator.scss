@@ -1,0 +1,17 @@
+.paginator {
+   display: flex;
+   position: absolute;
+   gap: 25rem;
+   bottom: 0;
+   left: 50%;
+   transform: translateX(-50%);
+   margin: 3rem 0;
+   &__back {
+      display: flex;
+      gap: 1rem;
+   }
+   &__forward {
+      display: flex;
+      gap: 1rem;
+   }
+}

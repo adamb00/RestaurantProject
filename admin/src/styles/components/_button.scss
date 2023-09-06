@@ -1,0 +1,81 @@
+.btn {
+   &,
+   &:link,
+   &:visited {
+      position: relative;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 1.5rem 6rem;
+
+      display: inline-block;
+      border-radius: $default-border-radius;
+      font-size: $default-font-size;
+      transition: all 200ms;
+      border: none;
+      cursor: pointer;
+   }
+   &:hover {
+      transform: translateY(-0.3rem);
+      box-shadow: $default-box-shadow;
+      background-color: $color-secondary-tint;
+
+      &::after {
+         transform: scaleX(1.4) scaleY(1.6);
+         opacity: 0;
+      }
+   }
+   &:active,
+   &:focus {
+      outline: none;
+      transform: translateY(-0.1rem);
+      box-shadow: $default-box-shadow;
+   }
+   &::after {
+      content: '';
+      display: inline-block;
+      height: 100%;
+      width: 100%;
+      border-radius: $default-border-radius;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      transition: all 400ms;
+   }
+
+   &--paginator {
+      padding: 1rem;
+      border-radius: 100%;
+      font-size: 1.8rem;
+      font-weight: bold;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: $color-secondary-tint;
+   }
+}
+.open-menu {
+   position: absolute;
+   background-color: $color-primary-shade;
+
+   padding: 1.5rem;
+   align-items: center;
+   justify-content: center;
+   display: flex;
+   border-radius: 100%;
+   right: 0;
+   top: 0;
+   overflow: visible !important;
+   z-index: 2;
+
+   border: none;
+   &:hover {
+      animation: spin 2s linear infinite;
+      cursor: pointer;
+   }
+   &__icon {
+      color: $color-secondary-tint;
+      z-index: 2;
+      font-size: 1.8rem;
+   }
+}

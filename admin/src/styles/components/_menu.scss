@@ -1,0 +1,56 @@
+.nav {
+   position: relative;
+   grid-area: nav;
+   background-color: $color-primary-shade;
+   padding: 5rem 1rem;
+   color: $color-grey-light-1;
+   display: flex;
+   flex-direction: column;
+   justify-content: space-between;
+   align-items: center;
+   overflow-y: scroll;
+   overflow-x: hidden;
+   gap: 15rem;
+   animation: slideInLeft 0.3s forwards;
+
+   &__list {
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
+   }
+
+   &__link {
+      display: flex;
+      justify-content: start;
+      align-items: center;
+      text-decoration: none;
+      color: $color-grey-light-2;
+
+      &--active {
+         color: $color-secondary-tint;
+      }
+
+      &:hover,
+      &:active,
+      &:focus {
+         color: $color-secondary-tint;
+      }
+   }
+
+   &__item {
+      display: flex;
+      align-items: safe;
+      gap: 0.8rem;
+      font-size: 1.8rem;
+   }
+
+   &__icon {
+      font-size: 1.6em;
+      cursor: pointer;
+      &:hover,
+      &:active,
+      &:focus {
+         color: $color-secondary-tint;
+      }
+   }
+}
