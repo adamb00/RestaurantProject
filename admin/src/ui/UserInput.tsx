@@ -31,13 +31,13 @@ export default function UserInput({
       <Controller
          control={control}
          name={name}
-         defaultValue={type === 'checkbox' ? false : initialValue}
+         defaultValue={type === 'checkbox' ? checked : initialValue}
          rules={rules}
          render={({ field: { value, onChange, onBlur }, fieldState: { error: fieldError } }) => (
             <div className={`${type === 'checkbox' ? 'user-input__checkbox--item' : 'user-input'}`}>
                {!message ? (
                   <input
-                     defaultChecked={checked}
+                     defaultChecked={type === 'checkbox' ? checked : false}
                      type={type}
                      disabled={disabled}
                      placeholder={placeholder}

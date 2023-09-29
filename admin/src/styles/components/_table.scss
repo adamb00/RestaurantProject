@@ -17,6 +17,7 @@
       &:nth-child(odd) {
          background-color: $color-primary;
       }
+
       &--active {
          background-color: $color-secondary-shade !important;
       }

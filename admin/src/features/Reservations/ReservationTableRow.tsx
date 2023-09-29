@@ -1,4 +1,3 @@
-import IReservation from '../../interfaces/IReservation';
 import Table from '../../ui/Table';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa6';
 import { formatDate } from '../../utils/helper';
@@ -7,7 +6,7 @@ import Button from '../../ui/Button';
 import { TableRowProps } from '../../interfaces/ITableRow';
 import { IconContext } from 'react-icons';
 
-export default function ReservationTableRow({ element, index, openIndex, setOpenIndex }: TableRowProps<IReservation>) {
+export default function ReservationTableRow({ element, index, openIndex, setOpenIndex }: TableRowProps) {
    const { isOpen, toggleMenu } = useTableMenuButton({ index, openIndex, setOpenIndex });
    return (
       <>

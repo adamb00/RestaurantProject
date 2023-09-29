@@ -114,7 +114,7 @@ export default function CreateEditFoodForm({
                      Vegetarian?
                   </label>
                   <UserInput
-                     checked={element && element.isVegetarian}
+                     checked={element?.isVegetarian}
                      control={control}
                      className={className}
                      formError={error ? true : false}
@@ -150,7 +150,7 @@ export default function CreateEditFoodForm({
                   </label>
                   <UserInput
                      control={control}
-                     checked={element && element.needSide}
+                     checked={element?.needSide}
                      className={className}
                      formError={error ? true : false}
                      disabled={isLoading}
@@ -165,7 +165,7 @@ export default function CreateEditFoodForm({
                      </label>
                      <UserInput
                         control={control}
-                        checked={element && element.isAvailable}
+                        checked={element?.isAvailable}
                         className={className}
                         formError={error ? true : false}
                         disabled={isLoading}
@@ -182,7 +182,7 @@ export default function CreateEditFoodForm({
                   </label>
                   <UserInput
                      control={control}
-                     checked={element && element.glutenFree}
+                     checked={element?.glutenFree}
                      className={className}
                      formError={error ? true : false}
                      disabled={isLoading}
@@ -196,7 +196,7 @@ export default function CreateEditFoodForm({
                   </label>
                   <UserInput
                      control={control}
-                     checked={element && element.canMakeGlutenFree}
+                     checked={element?.canMakeGlutenFree}
                      className={className}
                      formError={error ? true : false}
                      disabled={isLoading}
@@ -211,7 +211,7 @@ export default function CreateEditFoodForm({
                   </label>
                   <UserInput
                      control={control}
-                     checked={element && element.lactoseFree}
+                     checked={element?.lactoseFree}
                      className={className}
                      formError={error ? true : false}
                      disabled={isLoading}
@@ -225,7 +225,7 @@ export default function CreateEditFoodForm({
                   </label>
                   <UserInput
                      control={control}
-                     checked={element && element.canMakeLactoseFree}
+                     checked={element?.canMakeLactoseFree}
                      className={className}
                      formError={error ? true : false}
                      disabled={isLoading}

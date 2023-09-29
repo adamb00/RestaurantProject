@@ -43,8 +43,8 @@ export default function EditFoodTableRow({ element, index, openIndex, setOpenInd
                </IconContext.Provider>
             </td>
          </Table.Row>
-         <Table.Row>
-            {isOpen && (
+         {isOpen && (
+            <Table.Row>
                <td className='table__data--message' colSpan={6}>
                   {isUpdating ? (
                      <Loader />
@@ -61,8 +61,8 @@ export default function EditFoodTableRow({ element, index, openIndex, setOpenInd
                      </>
                   )}
                </td>
-            )}
-         </Table.Row>
+            </Table.Row>
+         )}
       </>
    );
 }
