@@ -7,8 +7,31 @@ export const getFoods = async () => {
    return responseData;
 };
 
+export const getOneFood = async id => {
+   const response = await fetch(BASE_URL + `foods/${id}`, OPTIONS('GET'));
+   const responseData = await response.json();
+
+   return responseData;
+};
+
 export const getTypes = async () => {
    const response = await fetch(BASE_URL + 'foods/types', OPTIONS('GET'));
+   const responseData = await response.json();
+
+   return responseData;
+};
+
+export const getReviewsOnFood = async id => {
+   const response = await fetch(BASE_URL + `foods/${id}/reviews`, OPTIONS('GET'));
+   const responseData = await response.json();
+
+   if (responseData.doc.length === 0) return 'Currently there is no review on this food.';
+   return responseData.doc;
+};
+
+export const createReviewOnFood = async mutationData => {
+   const { id, data } = mutationData;
+   const response = await fetch(BASE_URL + `foods/${id}/reviews`, OPTIONS('POST', data));
    const responseData = await response.json();
 
    return responseData;

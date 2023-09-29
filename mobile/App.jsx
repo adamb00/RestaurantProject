@@ -2,6 +2,8 @@ import React from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { NavigationContainer } from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
+import { Provider } from 'react-redux';
+import store from './src/features/Cart/store/configureStore';
 // import { useFonts } from 'expo-font';
 // import { AppLoading } from 'expo';
 
@@ -21,10 +23,12 @@ const App = () => {
    return (
       <QueryClientProvider client={queryClient}>
          <AuthProvider>
-            <NavigationContainer>
-               <Main />
-               <Toast />
-            </NavigationContainer>
+            <Provider store={store}>
+               <NavigationContainer>
+                  <Main />
+                  <Toast />
+               </NavigationContainer>
+            </Provider>
          </AuthProvider>
       </QueryClientProvider>
    );

@@ -26,7 +26,7 @@ const UserInput = ({
             render={({ field: { value, onChange, onBlur }, fieldState: { error } }) => (
                <>
                   <View style={styles.container}>
-                     <Icon name={icon} />
+                     {icon && <Icon name={icon} />}
                      <TextInput
                         multiline={multiline[0] ?? false}
                         numberOfLines={multiline[1] ?? 1}

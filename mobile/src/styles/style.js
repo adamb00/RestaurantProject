@@ -16,6 +16,7 @@ export const style = {
 
    'default-border-radius': 8,
    'default-boder-width': 1,
+   'default-box-shadow-color': 'rgba(0, 0, 0, 0.35)',
 };
 export const header_primary = {
    textAlign: 'center',
@@ -38,6 +39,14 @@ export const header_tertiary = {
    color: style['color-primary'],
 };
 
+export const header_info = {
+   fontSize: 18,
+   textTransform: 'uppercase',
+   color: style['color-primary-shade'],
+   marginTop: 10,
+   marginBottom: 5,
+};
+
 export const formIcon = {
    alignSelf: 'flex-start',
    marginRight: 5,
@@ -53,3 +62,13 @@ export const icon = (focused = false) => ({
    fontSize: 25,
    color: focused ? style['color-primary-shade'] : style['color-primary'],
 });
+
+export const descText = {
+   fontSize: 16,
+   color: style['color-dark-grey-2'],
+};
+
+export const star = {
+   marginTop: 5,
+   marginLeft: -5,
+};

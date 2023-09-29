@@ -1,4 +1,5 @@
-export const BASE_URL = 'http://192.168.0.33:8000/api/v1/';
+export const BASE_URL = 'http://localhost:8000/api/v1/';
+// export const BASE_URL = 'http://192.168.0.33:8000/api/v1/';
 
 export const OPTIONS = (method, data) => {
    return {
@@ -11,6 +12,10 @@ export const OPTIONS = (method, data) => {
 
 export const truncateText = (text, maxLength) => {
    if (text.length > maxLength) {
+      const commaIndex = text.lastIndexOf(',', maxLength - 3);
+      if (commaIndex !== -1) {
+         return text.substring(0, commaIndex) + '...';
+      }
       return text.substring(0, maxLength - 3) + '...';
    }
    return text;
@@ -37,7 +42,6 @@ export const glutenFree = food => {
 };
 
 export const lactoseFree = food => {
-   console.log(food);
    if (food.lactoseFree) {
       return 'There is no lactose in this food.';
    } else if (!food.lactoseFree && food.canMakeLactoseFree) {

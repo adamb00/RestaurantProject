@@ -7,10 +7,11 @@ import { formatCurrency, truncateText } from '../../../helpers/config';
 import Icon from '../../../components/Icon';
 
 import { useNavigation } from '@react-navigation/native';
-// import StarRating from 'react-native-star-rating-widget';
+import { useSelector } from 'react-redux';
+import { getCurrentQuantity } from '../../Cart/reducers/cartReducer';
+import UpdateItemQuantity from '../../Cart/components/UpdateItemQuantity';
 
-const FoodItem = ({ food }) => {
-   // const [rating, setRating] = useState(food.ratingsAverage);
+const FoodItem = ({ food, handleAddToCart, cartId }) => {
    const screenWidht = Dimensions.get('window').width;
    const navigation = useNavigation();
 
@@ -18,39 +19,45 @@ const FoodItem = ({ food }) => {
       return <Text>No food data available</Text>;
    }
 
-   return (
-      <TouchableOpacity
-         onPress={() => {
-            console.log('food');
-         }}
-      >
-         <View style={styles.container}>
-            <View>
-               <View>
-                  <Text style={[styles.foodText, styles.name]}>{food.name}</Text>
-                  <Text style={[styles.foodText]}></Text>
-               </View>
-               <View style={styles.descriptionContainer}>
-                  <Text style={[styles.foodText, styles.description]}>
-                     {truncateText(food.description, screenWidht < 550 ? 25 : 50)}
-                  </Text>
-                  <TouchableOpacity onPress={() => navigation.navigate('FoodInfo', food)}>
-                     <Icon name='information-circle-outline' form={false} />
-                  </TouchableOpacity>
-               </View>
+   const currentQuantity = useSelector(getCurrentQuantity(food._id));
 
-               <Text style={[styles.foodText, styles.price]}>{formatCurrency(food.price)}-tol</Text>
+   const isInCart = currentQuantity > 0;
+
+   return (
+      <View style={styles.container}>
+         <View>
+            <View>
+               <Text style={[styles.foodText, styles.name]}>{food.name}</Text>
+               <Text style={[styles.foodText]}></Text>
             </View>
-            <TouchableOpacity onPress={() => console.log('+')}>
+            <View style={styles.descriptionContainer}>
+               <Text style={[styles.foodText, styles.description]}>
+                  {truncateText(food.description, screenWidht < 550 ? 25 : 50)}
+               </Text>
+               <TouchableOpacity onPress={() => navigation.navigate('FoodInfo', food)}>
+                  <Icon name='information-circle-outline' form={false} />
+               </TouchableOpacity>
+            </View>
+
+            <Text style={[styles.foodText, styles.price]}>{formatCurrency(food.price)}-tol</Text>
+         </View>
+
+         {isInCart && (
+            <UpdateItemQuantity id={food._id} currentQuantity={currentQuantity} food={food} cartId={cartId} />
+         )}
+         {!isInCart && (
+            <TouchableOpacity onPress={() => handleAddToCart(food)}>
                <Icon name='add-circle-outline' form={false} />
             </TouchableOpacity>
-         </View>
-      </TouchableOpacity>
+         )}
+      </View>
    );
 };
 
 FoodItem.propTypes = {
    food: PropTypes.object,
+   handleAddToCart: PropTypes.func,
+   cartId: PropTypes.string,
 };
 
 export default FoodItem;
@@ -66,6 +73,7 @@ const styles = StyleSheet.create({
       marginHorizontal: 10,
       justifyContent: 'space-between',
       width: '95%',
+      alignItems: 'top',
       alignSelf: 'center',
    },
    foodText: {
@@ -94,14 +102,3 @@ const styles = StyleSheet.create({
       letterSpacing: 1.2,
    },
 });
-
-{
-   /* <StarRating
-                     enableHalfStar={true}
-                     rating={rating}
-                     style={styles.stars}
-                     color={style['color-primary-tint']}
-                     emptyColor={style['color-primary-shade']}
-                     starSize={20}
-      /> */
-}

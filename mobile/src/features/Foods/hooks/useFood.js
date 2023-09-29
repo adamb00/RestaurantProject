@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { getFoods as getFoodsFn, getTypes as getTypesFn } from '../services/apiFood';
+import { getFoods as getFoodsFn, getTypes as getTypesFn, getOneFood as getOneFoodFn } from '../services/apiFood';
 
 export const useGetFoods = () => {
    const {
@@ -9,11 +9,21 @@ export const useGetFoods = () => {
    } = useQuery({
       queryKey: ['food'],
       queryFn: getFoodsFn,
-      refetchInterval: 5000,
-      staleTime: 5000,
    });
 
    return { isLoading, foods, error };
+};
+export const useGetOneFood = id => {
+   const {
+      isLoading,
+      data: currentFood,
+      error,
+   } = useQuery({
+      queryKey: ['oneFood'],
+      queryFn: () => getOneFoodFn(id),
+   });
+
+   return { isLoading, currentFood, error };
 };
 export const useGetFoodTypes = () => {
    const {
@@ -23,8 +33,6 @@ export const useGetFoodTypes = () => {
    } = useQuery({
       queryKey: ['foodTypes'],
       queryFn: getTypesFn,
-      refetchInterval: 5000,
-      staleTime: 5000,
    });
 
    return { isLoading, types, error };
