@@ -1,3 +1,5 @@
+import { Schema } from 'mongoose';
+
 export default interface IUser {
    fullName: string;
    email: string;
@@ -9,4 +11,5 @@ export default interface IUser {
    passwordResetExpires?: number;
    createdAt: Date;
    phone: number;
+   // cart: Schema.Types.ObjectId;
 }

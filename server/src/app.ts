@@ -7,6 +7,8 @@ import UserRouter from './routes/UserRoute';
 import ReservationRouter from './routes/ReservationRoute';
 import AdminRouter from './routes/AdminRoute';
 import FoodRouter from './routes/FoodRoute';
+import ReviewRouter from './routes/ReviewRoute';
+import CartRouter from './routes/CartRoute';
 
 import AppError from './utils/appError';
 
@@ -41,10 +43,12 @@ export default class App {
    }
 
    private routes(): void {
-      this.app.use('/api/v1/users', UserRouter);
-      this.app.use('/api/v1/reservations', ReservationRouter);
-      this.app.use('/api/v1/admin', AdminRouter);
-      this.app.use('/api/v1/foods', FoodRouter);
+      this.app.use(`/api/${env.VERSION}/users`, UserRouter);
+      this.app.use(`/api/${env.VERSION}/reservations`, ReservationRouter);
+      this.app.use(`/api/${env.VERSION}/admin`, AdminRouter);
+      this.app.use(`/api/${env.VERSION}/foods`, FoodRouter);
+      this.app.use(`/api/${env.VERSION}/review`, ReviewRouter);
+      this.app.use(`/api/${env.VERSION}/cart`, CartRouter);
    }
 
    private errors(): void {

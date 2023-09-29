@@ -1,3 +1,5 @@
+import { Schema } from 'mongoose';
+
 export default interface IFood {
    name: string;
    price: number;
@@ -15,4 +17,5 @@ export default interface IFood {
    canMakeGlutenFree: boolean;
    lactoseFree: boolean;
    canMakeLactoseFree: boolean;
+   _id: Schema.Types.ObjectId;
 }

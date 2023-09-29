@@ -15,6 +15,7 @@ export default class FoodController {
       });
    });
    public getAllFoods = handler.getAll(Food);
+   public getOneFood = handler.getOne(Food);
    public createFood = handler.createOne(Food);
    public updateOne = handler.updateOne(Food);
 }

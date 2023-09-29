@@ -20,7 +20,5 @@ export default async (req: Request, res: Response, next: NextFunction) => {
 
    req.user = currentUser;
 
-   console.log(req.user);
-
    next();
 };

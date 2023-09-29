@@ -13,4 +13,5 @@ export default cleanEnv(process.env, {
    EMAIL_PASSWORD: str(),
    EMAIL_HOST: str(),
    EMAIL_PORT: num(),
+   VERSION: str(),
 });
