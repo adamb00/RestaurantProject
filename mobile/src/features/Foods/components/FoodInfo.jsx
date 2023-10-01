@@ -9,13 +9,32 @@ import { formatCurrency, glutenFree, lactoseFree } from '../../../helpers/config
 import { useGetReviewsOnFood } from '../hooks/useReviewsOnFood';
 import FoodReviews from './FoodReviews';
 import { useGetOneFood } from '../hooks/useFood';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const FoodInfo = () => {
    const route = useRoute();
    const navigation = useNavigation();
    const food = route.params;
    const { reviews } = useGetReviewsOnFood(food._id);
-   const { currentFood } = useGetOneFood(food._id);
+   const { isLoading, currentFood } = useGetOneFood(food._id);
+
+   if (isLoading) {
+      return (
+         <View>
+            <Spinner />
+         </View>
+      );
+   }
+
+   if (!currentFood) {
+      return (
+         <View>
+            <Spinner />
+         </View>
+      );
+   }
+
+   const { doc: currentFoodData } = currentFood;
 
    if (!reviews) return;
 
@@ -35,7 +54,7 @@ const FoodInfo = () => {
                      <Text style={styles.foodPrice}>{formatCurrency(food.price)}</Text>
                   </View>
                   <StarRating
-                     rating={currentFood.doc.ratingsAverage}
+                     rating={currentFoodData.ratingsAverage}
                      enableHalfStar={true}
                      starSize={24}
                      onChange={() => {}}

@@ -8,10 +8,17 @@ export const getFoods = async () => {
 };
 
 export const getOneFood = async id => {
-   const response = await fetch(BASE_URL + `foods/${id}`, OPTIONS('GET'));
-   const responseData = await response.json();
-
-   return responseData;
+   try {
+      const response = await fetch(BASE_URL + `foods/${id}`, OPTIONS('GET'));
+      if (!response.ok) {
+         throw new Error(`Failed to fetch data: ${response.statusText}`);
+      }
+      const responseData = await response.json();
+      return responseData;
+   } catch (error) {
+      console.error('Error fetching data:', error);
+      throw error;
+   }
 };
 
 export const getTypes = async () => {

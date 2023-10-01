@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Dimensions, ScrollView, StyleSheet, Text, View } from 'react-native';
 import PropTypes from 'prop-types';
 import { style } from '../../../styles/style';
@@ -7,29 +7,37 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import FoodItem from '../../Foods/components/FoodItem';
 import { useScrollTo } from '../hooks/useScrollTo';
 import { useDispatch, useSelector } from 'react-redux';
-import { additem, getCart } from '../../Cart/reducers/cartReducer';
+import { additem, getCart, getCartId, setCart, setCartId } from '../../Cart/reducers/cartReducer';
 import { useCreateCart, useUpdateCart } from '../../Cart/hooks/useCart';
+import { useGetCurrentUserCart } from '../hooks/useGetCurrentUserCart';
 
 const OrderView = ({ types, scrollTo }) => {
-   const { foods } = useGetFoods();
-   const { scrollViewRef } = useScrollTo(scrollTo, types);
    const screenHeight = Dimensions.get('window').height;
    const dispatch = useDispatch();
+
+   const { foods } = useGetFoods();
+   const { scrollViewRef } = useScrollTo(scrollTo, types);
+
    const { createCart } = useCreateCart();
    const { updateCart } = useUpdateCart();
 
    const cart = useSelector(getCart);
-   const [cartId, setCartId] = useState(null);
+   const cartId = useSelector(getCartId);
+
+   useGetCurrentUserCart();
 
    const handleAddToCart = async food => {
       dispatch(additem(food._id));
 
-      if (cart.length === 0) {
+      if (!cartId) {
          createCart(
             { items: [{ food: food._id, quantity: 1 }] },
             {
                onSuccess: data => {
-                  if (data) setCartId(data.doc._id);
+                  if (data) {
+                     dispatch(setCartId(data.doc._id));
+                     dispatch(setCart(data.doc.items));
+                  }
                },
             }
          );
@@ -38,6 +46,7 @@ const OrderView = ({ types, scrollTo }) => {
 
          if (existingItem) {
             existingItem.quantity++;
+
             updateCart({ cartId, items: [{ food: existingItem._id }] });
          } else {
             updateCart({ cartId, items: [...cart, { food: food._id, quantity: 1 }] });

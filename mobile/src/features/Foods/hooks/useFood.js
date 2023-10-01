@@ -19,7 +19,7 @@ export const useGetOneFood = id => {
       data: currentFood,
       error,
    } = useQuery({
-      queryKey: ['oneFood'],
+      queryKey: ['oneFood', id],
       queryFn: () => getOneFoodFn(id),
    });
 

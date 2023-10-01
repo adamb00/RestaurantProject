@@ -2,24 +2,25 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import Icon from '../../../components/Icon';
 import { useDispatch, useSelector } from 'react-redux';
-import { decrease, getCart, increase, deleteItem } from '../reducers/cartReducer';
+import { decrease, getCart, increase, deleteItem, setCartId } from '../reducers/cartReducer';
 import PropTypes from 'prop-types';
-import { useUpdateCart } from '../hooks/useCart';
+import { useUpdateCart, useDeleteCart } from '../hooks/useCart';
 
 const UpdateItemQuantity = ({ food, currentQuantity, cartId }) => {
    const dispatch = useDispatch();
    const cart = useSelector(getCart);
    const { updateCart } = useUpdateCart();
+   const { deleteCart } = useDeleteCart();
 
    async function handleDecrease() {
       const existingItem = cart.find(item => item.food === food._id);
 
       if (existingItem && existingItem.quantity > 1) {
          dispatch(decrease(existingItem.food));
-         await updateCartOnServer([...cart], existingItem.food, currentQuantity - 1);
+         await updateCartOnServer([...cart], existingItem.food, currentQuantity - 1, cartId);
       } else if (existingItem && existingItem.quantity === 1) {
          dispatch(deleteItem(existingItem.food));
-         await updateCartOnServer([...cart], existingItem.food, 0);
+         await updateCartOnServer([...cart], existingItem.food, 0, cartId);
       }
    }
 
@@ -28,7 +29,7 @@ const UpdateItemQuantity = ({ food, currentQuantity, cartId }) => {
 
       if (existingItem) {
          dispatch(increase(existingItem.food));
-         await updateCartOnServer([...cart], existingItem.food, currentQuantity + 1);
+         await updateCartOnServer([...cart], existingItem.food, currentQuantity + 1, cartId);
       }
    }
 
@@ -40,6 +41,13 @@ const UpdateItemQuantity = ({ food, currentQuantity, cartId }) => {
             }
             return item;
          });
+
+         const allQuantitiesAreZero = updatedCart.every(item => item.quantity === 0);
+
+         if (allQuantitiesAreZero) {
+            dispatch(setCartId(''));
+            deleteCart(cartId);
+         }
 
          updateCart({
             cartId,

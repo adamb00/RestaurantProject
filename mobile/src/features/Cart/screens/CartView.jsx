@@ -1,17 +1,17 @@
 import React from 'react';
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, SafeAreaView, StyleSheet } from 'react-native';
 import { useSelector } from 'react-redux';
 import { getCart } from '../reducers/cartReducer';
+import CartItem from '../components/CartItem';
+import { style } from '../../../styles/style';
 
 const Cart = () => {
    const cart = useSelector(getCart);
+   if (!cart) return <ActivityIndicator size='large' color={style['color-primary']} />;
    return (
       <SafeAreaView style={styles.container}>
          {cart.map(item => (
-            <View key={item._id}>
-               <Text>{item.name}</Text>
-               <Text>{item.quantity}</Text>
-            </View>
+            <CartItem food={item} key={item.food} />
          ))}
       </SafeAreaView>
    );
