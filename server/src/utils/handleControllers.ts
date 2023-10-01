@@ -40,18 +40,14 @@ export const createOne = (Model: any, customizeRequestBody?: (req: Request) => v
       if (customizeRequestBody) {
          customizeRequestBody(req);
       }
-      console.log(req.body);
       try {
          const doc = await Model.create(req.body);
-
-         console.log(doc);
 
          res.status(201).json({
             status: 'success',
             doc,
          });
       } catch (error) {
-         console.error('Error creating cart:', error);
          res.status(500).json({ status: 'error', message: 'Failed to create cart' });
       }
    });
@@ -60,16 +56,10 @@ export const createOne = (Model: any, customizeRequestBody?: (req: Request) => v
 export const updateOne = (Model: any) => {
    return catchAsync(async (req: Request, res: Response, next: NextFunction): Promise<void> => {
       try {
-         console.log(req.body);
-
-         console.log(req.params.id);
-
          const doc = await Model.findByIdAndUpdate(req.params.id, req.body, {
             new: true,
             runValidators: true,
          });
-
-         console.log(doc);
 
          if (!doc) {
             return next(new AppError('No document found with that ID', 404));

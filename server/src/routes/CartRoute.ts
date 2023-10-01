@@ -7,7 +7,11 @@ const cartController = new CartController();
 
 router.use(authenticateUser, cartController.setUser);
 
-router.route('/').post(cartController.createCart);
-router.route('/:id').get(cartController.getOneCart).patch(cartController.setBody, cartController.updateOne);
+router.route('/').get(cartController.getAllCarts).post(cartController.createCart);
+router
+   .route('/:id')
+   .get(cartController.getOneCart)
+   .patch(cartController.setBody, cartController.updateOne)
+   .delete(cartController.deleteOne);
 
 export default router;

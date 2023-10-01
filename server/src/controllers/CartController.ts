@@ -22,4 +22,5 @@ export default class CartController {
    public getOneCart = handler.getOne(Cart);
    public createCart = handler.createOne(Cart);
    public updateOne = handler.updateOne(Cart);
+   public deleteOne = handler.deleteOne(Cart);
 }
