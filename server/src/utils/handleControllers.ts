@@ -1,5 +1,5 @@
 import catchAsync from './catchAsync';
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction, Request, Response, request } from 'express';
 
 import APIFeatures from './apiFeatures';
 import AppError from './appError';
@@ -40,6 +40,7 @@ export const createOne = (Model: any, customizeRequestBody?: (req: Request) => v
       if (customizeRequestBody) {
          customizeRequestBody(req);
       }
+
       try {
          const doc = await Model.create(req.body);
 
@@ -48,7 +49,8 @@ export const createOne = (Model: any, customizeRequestBody?: (req: Request) => v
             doc,
          });
       } catch (error) {
-         res.status(500).json({ status: 'error', message: 'Failed to create cart' });
+         console.log(error);
+         res.status(500).json({ status: 'error', message: error });
       }
    });
 };

@@ -9,6 +9,7 @@ import AdminRouter from './routes/AdminRoute';
 import FoodRouter from './routes/FoodRoute';
 import ReviewRouter from './routes/ReviewRoute';
 import CartRouter from './routes/CartRoute';
+import OrderRouter from './routes/OrderRoute';
 
 import AppError from './utils/appError';
 
@@ -45,10 +46,11 @@ export default class App {
    private routes(): void {
       this.app.use(`/api/${env.VERSION}/users`, UserRouter);
       this.app.use(`/api/${env.VERSION}/reservations`, ReservationRouter);
-      this.app.use(`/api/${env.VERSION}/admin`, AdminRouter);
       this.app.use(`/api/${env.VERSION}/foods`, FoodRouter);
       this.app.use(`/api/${env.VERSION}/review`, ReviewRouter);
       this.app.use(`/api/${env.VERSION}/cart`, CartRouter);
+      this.app.use(`/api/${env.VERSION}/orders`, OrderRouter);
+      this.app.use(`/api/${env.VERSION}/admin`, AdminRouter);
    }
 
    private errors(): void {

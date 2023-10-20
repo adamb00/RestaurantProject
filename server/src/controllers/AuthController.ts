@@ -55,11 +55,23 @@ export default class AuthController {
 
       const user: UserType | null = await User.findOne({ email }).select('+password');
 
-      if (!user) return next(new AppError('No user found with this email.', 404));
+      if (!user || user === null) {
+         res.status(404).json({
+            status: 'error',
+            message: 'No user found with this email',
+         });
+         return next(new AppError('No user found with this email.', 404));
+      }
 
-      if (!(await correctPassword(password, user.password))) return next(new AppError('Incorrect password.', 401));
+      if (!(await correctPassword(password, user.password))) {
+         res.status(401).json({
+            status: 'error',
+            message: 'Incorrect password',
+         });
+         return next(new AppError('Incorrect password.', 401));
+      }
 
-      await createAndSendToken(user, 200, res);
+      await createAndSendToken(user, 200, req, res);
 
       req.user = user;
    });

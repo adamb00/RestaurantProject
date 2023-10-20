@@ -1,4 +1,4 @@
-import { Schema } from 'mongoose';
+import IAddress from './IAddress';
 
 export default interface IUser {
    fullName: string;
@@ -11,5 +11,5 @@ export default interface IUser {
    passwordResetExpires?: number;
    createdAt: Date;
    phone: number;
-   // cart: Schema.Types.ObjectId;
+   address: IAddress;
 }

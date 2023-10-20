@@ -9,8 +9,8 @@ const foodSchema: Schema = new Schema<IFood>({
       required: [true, 'A food must have a name.'],
       unique: true,
       trim: true,
-      minlength: [5, 'A food name must have more or equal then 5 characters'],
-      maxlength: [40, 'A food name must have more or equal then 40 characters'],
+      // minlength: [5, 'A food name must have more or equal then 5 characters'],
+      // maxlength: [40, 'A food name must have more or equal then 40 characters'],
    },
    price: {
       type: Number,
@@ -35,7 +35,7 @@ const foodSchema: Schema = new Schema<IFood>({
    type: {
       type: String,
       required: [true, 'A food must have a type'],
-      enum: ['pizza', 'soup', 'starter', 'dessert', 'main course', 'salad', 'one plater', 'side', 'sauce'],
+      enum: ['pizza', 'soup', 'starter', 'dessert', 'main course', 'salad', 'one plater', 'side', 'sauce', 'topping'],
    },
    createdAt: {
       type: Date,

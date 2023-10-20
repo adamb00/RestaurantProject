@@ -2,6 +2,7 @@ import { CallbackError, InferSchemaType, Schema, model } from 'mongoose';
 import IUser from '../interfaces/IUser';
 import validator from 'validator';
 import bcrypt from 'bcrypt';
+import { addressSchema } from './AddressModel';
 
 const userSchema: Schema = new Schema<IUser>({
    fullName: {
@@ -46,6 +47,7 @@ const userSchema: Schema = new Schema<IUser>({
       type: Date,
       default: Date.now(),
    },
+   address: { type: addressSchema },
 });
 
 userSchema.pre<UserType>('save', async function (this: UserType, next: (err?: CallbackError) => void): Promise<void> {

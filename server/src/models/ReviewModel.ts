@@ -75,8 +75,6 @@ reviewSchema.statics.calcAverageRatings = async function (food: IFood) {
       },
    ]);
 
-   console.log('Aggregation result:', stats);
-
    if (stats.length > 0) {
       const { nRatings, avgRating } = stats[0];
       await Food.findByIdAndUpdate(food, {
