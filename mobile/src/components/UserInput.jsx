@@ -13,9 +13,11 @@ const UserInput = ({
    rules = {},
    autoCapitalize = 'none',
    icon,
+   initialValue,
    multiline = [],
    keyboardType = 'default',
    onPressIn,
+   onChangeText,
 }) => {
    return (
       <View>
@@ -23,7 +25,7 @@ const UserInput = ({
             control={control}
             name={name}
             rules={rules}
-            render={({ field: { value, onChange, onBlur }, fieldState: { error } }) => (
+            render={({ field: { value = initialValue, onChange, onBlur }, fieldState: { error } }) => (
                <>
                   <View style={styles.container}>
                      {icon && <Icon name={icon} />}
@@ -31,12 +33,23 @@ const UserInput = ({
                         multiline={multiline[0] ?? false}
                         numberOfLines={multiline[1] ?? 1}
                         value={value}
-                        onChangeText={onChange}
+                        onChangeText={text => {
+                           onChange(text);
+                           if (onChangeText) {
+                              onChangeText(text);
+                           }
+                        }}
                         autoCapitalize={autoCapitalize}
                         onBlur={onBlur}
                         onPressIn={onPressIn}
                         keyboardType={keyboardType}
-                        style={[styles.input, error ? styles.error : styles.success]}
+                        style={[
+                           name === 'orderMessage'
+                              ? styles.inputMessage
+                              : error
+                              ? [styles.error, styles.input]
+                              : [styles.success, styles.input],
+                        ]}
                         secureTextEntry={secureTextEntry}
                         placeholder={`Enter your ${name} here`}
                         textAlignVertical={multiline[0] ? 'top' : 'auto'}
@@ -59,6 +72,7 @@ const styles = StyleSheet.create({
       color: style['color-error'],
       alignSelf: 'stretch',
    },
+
    input: {
       flex: 1,
       fontSize: 20,
@@ -67,6 +81,14 @@ const styles = StyleSheet.create({
       paddingHorizontal: 8,
       minHeight: 60,
       maxHeight: 150,
+   },
+
+   inputMessage: {
+      marginVertical: 2,
+      paddingVertical: 5,
+      paddingHorizontal: 10,
+      width: '80%',
+      fontStyle: 'italic',
    },
    error: {
       borderWidth: style['default-boder-width'],
@@ -92,6 +114,8 @@ UserInput.propTypes = {
    multiline: PropTypes.array,
    keyboardType: PropTypes.string,
    onPressIn: PropTypes.func,
+   onChangeText: PropTypes.func,
+   initialValue: PropTypes.string,
 };
 
 export default UserInput;

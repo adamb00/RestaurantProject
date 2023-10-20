@@ -1,5 +1,7 @@
-export const BASE_URL = 'http://localhost:8000/api/v1/';
-// export const BASE_URL = 'http://192.168.0.33:8000/api/v1/';
+// export const BASE_URL = 'http://localhost:8000/api/v1/';
+export const BASE_URL = 'http://192.168.0.33:8000/api/v1/';
+
+export const ZOOM_LEVEL = 0.001;
 
 export const OPTIONS = (method, data) => {
    return {
@@ -51,4 +53,24 @@ export const lactoseFree = food => {
    }
 
    return 'Information about lactose availability not found for this food.';
+};
+
+export const getOrdinalSuffix = number => {
+   const lastDigit = number % 10;
+   const lastTwoDigits = number % 100;
+
+   if (lastTwoDigits >= 11 && lastTwoDigits <= 13) {
+      return `${number}th`;
+   }
+
+   switch (lastDigit) {
+      case 1:
+         return `${number}st`;
+      case 2:
+         return `${number}nd`;
+      case 3:
+         return `${number}rd`;
+      default:
+         return `${number}th`;
+   }
 };

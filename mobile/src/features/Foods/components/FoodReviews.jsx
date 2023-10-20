@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View, Platform } from 'react-native';
 import StarRating from 'react-native-star-rating-widget';
 import PropTypes from 'prop-types';
 import { style, descText, star } from '../../../styles/style';
-import { Platform } from 'react-native';
 import Button from '../../../components/Button';
 import ReviewPopup from './ReviewPopup';
 import { useAuth } from '../../../contexts/AuthContext';
@@ -29,6 +28,7 @@ const FoodReviews = ({ reviews, id }) => {
          </View>
       );
    }
+   const currentUserHasReviewOnFood = reviews.filter(review => review.user._id === user._id);
    return (
       <View style={styles.container}>
          <ScrollView style={styles.footer} horizontal={true} showsHorizontalScrollIndicator={false}>
@@ -40,10 +40,10 @@ const FoodReviews = ({ reviews, id }) => {
             ))}
          </ScrollView>
 
-         {user._id !== reviews[0].user._id ? (
-            <Button handleSubmit={handleOnClick}>Leave a review</Button>
-         ) : (
+         {currentUserHasReviewOnFood ? (
             <Text style={[styles.review, descText]}>You already have a review on this food.</Text>
+         ) : (
+            <Button handleSubmit={handleOnClick}>Leave a review</Button>
          )}
       </View>
    );

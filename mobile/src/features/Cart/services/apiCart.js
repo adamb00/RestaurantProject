@@ -20,8 +20,7 @@ export const createCart = async mutationData => {
 
       return responseData;
    } catch (err) {
-      console.error('createCartFn error:', err);
-      throw err;
+      console.error(err);
    }
 };
 
@@ -37,6 +36,7 @@ export const updateCart = async ({ cartId, items }) => {
 };
 
 export const deleteCart = async cartId => {
+   console.log(cartId);
    try {
       const response = await fetch(BASE_URL + `cart/${cartId}`, OPTIONS('DELETE'));
       const responseData = await response.json();

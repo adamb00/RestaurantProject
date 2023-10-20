@@ -15,7 +15,6 @@ export const useGetCurrentUserCart = () => {
          currentUserCart = carts.doc.find(cart => cart.user === user._id) ?? [];
       }
       if (currentUserCart) {
-         // setCartId(currentUserCart._id);
          dispatch(setCartId(currentUserCart._id));
          dispatch(setCart(currentUserCart.items));
       }

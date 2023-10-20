@@ -1,5 +1,10 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { createUser as createUserFn, loginUser as loginUserFn, logoutUser as logoutUserFn } from '../services/apiUsers';
+import {
+   createUser as createUserFn,
+   loginUser as loginUserFn,
+   logoutUser as logoutUserFn,
+   updateUser as updateUserFn,
+} from '../services/apiUsers';
 import { useAuth } from '../../../contexts/AuthContext';
 import Toast from 'react-native-toast-message';
 
@@ -19,7 +24,6 @@ export const useCreateUser = () => {
                const [field, message] = errorString.split(': ');
                errorObject[field] = message;
             });
-            console.log(errorObject);
             return errorObject;
          }
          Toast.show({
@@ -38,24 +42,15 @@ export const useCreateUser = () => {
 };
 
 export const useLoginUser = () => {
-   const queryClient = useQueryClient();
-   const { signin } = useAuth();
-   const { mutate: loginUser, isLoading: isLogging } = useMutation({
+   const {
+      mutate: loginUser,
+      isLoading: isLogging,
+      isSuccess,
+   } = useMutation({
       mutationFn: loginUserFn,
-      onSuccess: data => {
-         queryClient.invalidateQueries({ queryKey: ['user'] });
-         signin(data);
-      },
-      onError: err => {
-         console.error(err.message);
-         Toast.show({
-            type: 'error',
-            text1: 'Something went very wrong.',
-         });
-      },
    });
 
-   return { loginUser, isLogging };
+   return { loginUser, isLogging, isSuccess };
 };
 
 export const useLogoutUser = () => {
@@ -72,4 +67,20 @@ export const useLogoutUser = () => {
    });
 
    return { singoutUser, isSigningOut };
+};
+
+export const useUpdateUser = () => {
+   const queryClient = useQueryClient();
+   const {
+      mutate: updateUser,
+      isLoading: isUpdating,
+      error,
+   } = useMutation({
+      mutationFn: mutationData => updateUserFn(mutationData),
+      onSuccess: () => {
+         queryClient.invalidateQueries({ queryKey: ['user'] });
+      },
+   });
+
+   return { updateUser, isUpdating, error };
 };

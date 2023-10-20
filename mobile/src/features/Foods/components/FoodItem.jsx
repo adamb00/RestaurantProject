@@ -7,18 +7,17 @@ import { formatCurrency, truncateText } from '../../../helpers/config';
 import Icon from '../../../components/Icon';
 
 import { useNavigation } from '@react-navigation/native';
-import { useSelector } from 'react-redux';
 import { getCurrentQuantity } from '../../Cart/reducers/cartReducer';
 import UpdateItemQuantity from '../../Cart/components/UpdateItemQuantity';
+import { useSelector } from 'react-redux';
 
-const FoodItem = ({ food, handleAddToCart, cartId }) => {
+const FoodItem = ({ food, handleAddToCart }) => {
    const screenWidht = Dimensions.get('window').width;
    const navigation = useNavigation();
 
    if (!food) {
       return <Text>No food data available</Text>;
    }
-
    const currentQuantity = useSelector(getCurrentQuantity(food._id));
 
    const isInCart = currentQuantity > 0;
@@ -39,12 +38,10 @@ const FoodItem = ({ food, handleAddToCart, cartId }) => {
                </TouchableOpacity>
             </View>
 
-            <Text style={[styles.foodText, styles.price]}>{formatCurrency(food.price)}-tol</Text>
+            <Text style={[styles.foodText, styles.price]}>From {formatCurrency(food.price)}</Text>
          </View>
 
-         {isInCart && (
-            <UpdateItemQuantity id={food._id} currentQuantity={currentQuantity} food={food} cartId={cartId} />
-         )}
+         {isInCart && <UpdateItemQuantity id={food._id} currentQuantity={currentQuantity} food={food} />}
          {!isInCart && (
             <TouchableOpacity onPress={() => handleAddToCart(food)}>
                <Icon name='add-circle-outline' form={false} />

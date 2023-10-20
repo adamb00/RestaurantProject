@@ -10,8 +10,7 @@ export const useSendReservation = () => {
       error,
    } = useMutation({
       mutationFn: sendReservationFn,
-      onSuccess: data => {
-         console.log(data);
+      onSuccess: () => {
          Toast.show({
             type: 'success',
             text1: 'Reservation successfully sent!',

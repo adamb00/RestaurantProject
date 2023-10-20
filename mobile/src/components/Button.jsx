@@ -4,22 +4,22 @@ import PropTypes from 'prop-types';
 import { style } from '../styles/style';
 import { LinearGradient } from 'expo-linear-gradient';
 
-const Button = ({ children, handleSubmit, onLoading, circle = false, colors = [] }) => {
+const Button = ({ children, handleSubmit, onLoading, circle = false, colors = [], disabled = false }) => {
    return (
-      <TouchableOpacity onPress={handleSubmit} disabled={onLoading}>
+      <TouchableOpacity onPress={handleSubmit} disabled={onLoading || disabled}>
          <LinearGradient
             style={circle ? styles.circle : styles.button}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 1 }}
             colors={
-               onLoading
+               onLoading || disabled
                   ? [style['color-dark-grey-2'], style['color-dark-grey-2']]
                   : colors.length === 0
                   ? [style['color-primary'], style['color-primary-tint']]
                   : [colors[0], colors[1]]
             }
          >
-            <Text style={circle ? styles.fontCircle : onLoading ? styles.disabled : styles.font}>
+            <Text style={circle ? styles.fontCircle : onLoading || disabled ? styles.disabled : styles.font}>
                {onLoading ? 'Please wait...' : children}
             </Text>
          </LinearGradient>

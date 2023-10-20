@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Image, StyleSheet } from 'react-native';
 
-import LogoImage from '../../assets/logo.png';
+import LogoImage from '../../assets/bandula_png.png';
 
 const Logo = () => {
    return (
@@ -17,10 +17,11 @@ const styles = StyleSheet.create({
    container: {
       justifyContent: 'center',
       alignItems: 'center',
+      width: '100%',
    },
    logo: {
-      width: 150,
-      height: 150,
-      marginVertical: 50,
+      width: 250,
+      height: 180,
+      marginVertical: 30,
    },
 });

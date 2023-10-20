@@ -20,3 +20,10 @@ export const logoutUser = async () => {
 
    return responseData;
 };
+
+export const updateUser = async user => {
+   const response = await fetch(BASE_URL + `users/${user._id}`, OPTIONS('PATCH', user));
+   const responseData = await response.json();
+
+   return responseData;
+};

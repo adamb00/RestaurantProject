@@ -12,9 +12,13 @@ import { styles } from '../styles/AuthStyle';
 import { header_primary } from '../../../styles/style';
 
 import { useCreateUser } from '../hooks/useUserAuth';
+import ButtonCircle from '../../../components/ButtonCircle';
+import { useTogglePasswordVisibility } from '../hooks/useTogglePasswordVisibility';
+import Icon from '../../../components/Icon';
 
 const SignUp = ({ navigation }) => {
    const { control, handleSubmit } = useForm();
+   const { isPasswordVisible, togglePasswordVisibility } = useTogglePasswordVisibility(false);
 
    const { isCreating, createUser } = useCreateUser();
 
@@ -36,28 +40,36 @@ const SignUp = ({ navigation }) => {
                   name='email'
                   rules={{ required: 'Email address is required.' }}
                />
-               <UserInput
-                  control={control}
-                  name='password'
-                  icon='key-outline'
-                  secureTextEntry={true}
-                  disabled={isCreating}
-                  rules={{
-                     required: 'Password is required.',
-                     minLength: { value: 8, message: 'Password should be minimum 8 characters long.' },
-                  }}
-               />
+               <View style={styles.passwordContainer}>
+                  <UserInput
+                     control={control}
+                     name='password'
+                     icon='key-outline'
+                     secureTextEntry={!isPasswordVisible}
+                     disabled={isCreating}
+                     rules={{
+                        required: 'Password is required.',
+                        minLength: { value: 8, message: 'Password should be minimum 8 characters long.' },
+                     }}
+                  />
+                  <Icon
+                     name={isPasswordVisible ? 'eye-off-outline' : 'eye-outline'}
+                     style={styles.icon}
+                     handleOnPress={togglePasswordVisibility}
+                  />
+               </View>
                <UserInput
                   control={control}
                   name='passwordAgain'
                   icon='key-outline'
-                  secureTextEntry={true}
+                  secureTextEntry={!isPasswordVisible}
                   disabled={isCreating}
                   rules={{
                      required: 'Please confirm your password',
                      validate: value => value === password || 'The passwords do not match',
                   }}
                />
+
                <UserInput
                   control={control}
                   disabled={isCreating}
@@ -78,9 +90,9 @@ const SignUp = ({ navigation }) => {
                   Sign up
                </Button>
             </View>
-            <Button circle={true} handleSubmit={() => navigation.navigate('SignIn')}>
+            <ButtonCircle handleSubmit={() => navigation.navigate('SignIn')}>
                <Text style={styles.signText}>&uarr;</Text>
-            </Button>
+            </ButtonCircle>
          </KeyboardAwareScrollView>
       </SafeAreaView>
    );

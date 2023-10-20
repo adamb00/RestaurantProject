@@ -10,8 +10,17 @@ export const styles = StyleSheet.create({
    },
    form: { gap: 20, marginVertical: 50 },
    signText: {
-      alignSelf: 'center',
-      fontSize: 25,
+      textAlign: 'center',
+      fontSize: 30,
       color: style['color-primary-shade'],
+   },
+
+   passwordIcon: {},
+   icon: {
+      position: 'absolute',
+      right: -5,
+      top: -58,
+
+      borderWidth: 0,
    },
 });

@@ -9,7 +9,7 @@ import { formatCurrency, glutenFree, lactoseFree } from '../../../helpers/config
 import { useGetReviewsOnFood } from '../hooks/useReviewsOnFood';
 import FoodReviews from './FoodReviews';
 import { useGetOneFood } from '../hooks/useFood';
-import Spinner from 'react-native-loading-spinner-overlay';
+import Spinner from '../../../components/Spinner';
 
 const FoodInfo = () => {
    const route = useRoute();
@@ -18,21 +18,7 @@ const FoodInfo = () => {
    const { reviews } = useGetReviewsOnFood(food._id);
    const { isLoading, currentFood } = useGetOneFood(food._id);
 
-   if (isLoading) {
-      return (
-         <View>
-            <Spinner />
-         </View>
-      );
-   }
-
-   if (!currentFood) {
-      return (
-         <View>
-            <Spinner />
-         </View>
-      );
-   }
+   if (isLoading || !currentFood) return <Spinner />;
 
    const { doc: currentFoodData } = currentFood;
 

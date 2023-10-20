@@ -9,6 +9,7 @@ import store from './src/features/Cart/store/configureStore';
 
 import Main from './Main';
 import { AuthProvider } from './src/contexts/AuthContext';
+import { LocationProvider } from './src/contexts/LocationContext';
 
 const queryClient = new QueryClient();
 
@@ -23,12 +24,14 @@ const App = () => {
    return (
       <QueryClientProvider client={queryClient}>
          <AuthProvider>
-            <Provider store={store}>
-               <NavigationContainer>
-                  <Main />
-                  <Toast />
-               </NavigationContainer>
-            </Provider>
+            <LocationProvider>
+               <Provider store={store}>
+                  <NavigationContainer>
+                     <Main />
+                     <Toast />
+                  </NavigationContainer>
+               </Provider>
+            </LocationProvider>
          </AuthProvider>
       </QueryClientProvider>
    );

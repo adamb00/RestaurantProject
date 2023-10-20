@@ -31,7 +31,6 @@ const DatePicker = ({ setShowPicker, onDateChange, selectedDate }) => {
          <DateTimePicker
             value={selectedDate || new Date()}
             onChange={(e, date) => {
-               console.log(date);
                onDateChange(e, date);
             }}
             mode={mode}

@@ -1,3 +1,5 @@
+import { Platform } from 'react-native';
+
 export const style = {
    'color-primary': '#fe923f',
    'color-primary-tint': '#feb560',
@@ -38,6 +40,18 @@ export const header_tertiary = {
    fontSize: 26,
    color: style['color-primary'],
 };
+export const header_tertiary_center = {
+   textAlign: 'center',
+   marginBottom: 30,
+   fontSize: 26,
+   color: style['color-primary'],
+};
+export const header_quad_center = {
+   textAlign: 'center',
+   marginBottom: 30,
+   fontSize: 22,
+   color: style['color-secondary-shade'],
+};
 
 export const header_info = {
    fontSize: 18,
@@ -72,3 +86,15 @@ export const star = {
    marginTop: 5,
    marginLeft: -5,
 };
+
+export const shadowProp = Platform.select({
+   ios: {
+      shadowColor: style['default-box-shadow-color'],
+      shadowOffset: { width: 0, height: 4 },
+      shadowOpacity: 1,
+      shadowRadius: 4,
+   },
+   android: {
+      elevation: 8,
+   },
+});
