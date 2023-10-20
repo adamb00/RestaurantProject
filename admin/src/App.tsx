@@ -11,6 +11,7 @@ import Home from './features/Home/Home';
 import { useAuth } from './contexts/AuthContext';
 import CreateFood from './features/Foods/CreateFood';
 import EditFood from './features/Foods/EditFood';
+import ShowOrder from './features/Orders/ShowOrder';
 
 const PrivateRoute = () => {
    const { isAuthenticated } = useAuth();
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
                {
                   path: 'orders',
                   element: <Order />,
+               },
+               {
+                  path: `orders/show-order/:id`,
+                  element: <ShowOrder />,
                },
                {
                   path: 'dashboard',

@@ -4,6 +4,8 @@ import Dropdown from '../../ui/Dropdown';
 import UserInput from '../../ui/UserInput';
 import { IS_VALID_NUMBER } from '../../utils/helper';
 import IError from '../../interfaces/IError';
+import { useGetFoodTypes } from './useFoods';
+import Loader from '../../ui/Loader';
 
 interface CreateEditFoodFormProps {
    handleOnClick: (data: FieldValues) => Promise<void>;
@@ -23,9 +25,12 @@ export default function CreateEditFoodForm({
    element,
 }: CreateEditFoodFormProps) {
    const { handleSubmit, control, watch } = useForm();
+   const { isLoading: typesIsLoading, types } = useGetFoodTypes();
+
+   if (typesIsLoading) return <Loader />;
 
    const isVegetarian = watch('isVegetarian');
-   const hasTypeAlready = watch('type');
+   const hasTypeAlready = watch('type') ?? '';
 
    const usage = update ? 'edit' : 'create';
 
@@ -73,7 +78,8 @@ export default function CreateEditFoodForm({
                name='description'
                message={true}
                rules={
-                  update
+                  // TODO IF HASTYPEALREADY IS TOPPING, NOT NECESSARY TO ADD DESCRIPTION
+                  update || hasTypeAlready.toLowerCase() === 'topping'
                      ? {}
                      : {
                           required: 'Food description is required',
@@ -97,17 +103,7 @@ export default function CreateEditFoodForm({
                              required: 'Please select a food type',
                           }
                   }
-                  options={[
-                     'pizza',
-                     'soup',
-                     'starter',
-                     'dessert',
-                     'main course',
-                     'salad',
-                     'one plater',
-                     'side',
-                     'sauce',
-                  ]}
+                  options={[...types.types]}
                />
                <div className='user-input__checkbox'>
                   <label className={className ? `user-input__label--${className}` : 'user-input__label'}>
@@ -118,7 +114,7 @@ export default function CreateEditFoodForm({
                      control={control}
                      className={className}
                      formError={error ? true : false}
-                     disabled={isLoading}
+                     disabled={isLoading || hasTypeAlready.toLowerCase() === 'topping'}
                      name='isVegetarian'
                      type='checkbox'
                   />
@@ -134,6 +130,7 @@ export default function CreateEditFoodForm({
                   />
                ) : (
                   hasTypeAlready &&
+                  hasTypeAlready.toLowerCase() !== 'topping' &&
                   !isVegetarian && (
                      <Dropdown
                         control={control}
@@ -153,7 +150,7 @@ export default function CreateEditFoodForm({
                      checked={element?.needSide}
                      className={className}
                      formError={error ? true : false}
-                     disabled={isLoading}
+                     disabled={isLoading || hasTypeAlready.toLowerCase() === 'topping'}
                      name='needSide'
                      type='checkbox'
                   />
@@ -168,7 +165,7 @@ export default function CreateEditFoodForm({
                         checked={element?.isAvailable}
                         className={className}
                         formError={error ? true : false}
-                        disabled={isLoading}
+                        disabled={isLoading || hasTypeAlready.toLowerCase() === 'topping'}
                         name='isAvailable'
                         type='checkbox'
                      />
@@ -185,7 +182,7 @@ export default function CreateEditFoodForm({
                      checked={element?.glutenFree}
                      className={className}
                      formError={error ? true : false}
-                     disabled={isLoading}
+                     disabled={isLoading || hasTypeAlready.toLowerCase() === 'topping'}
                      name='glutenFree'
                      type='checkbox'
                   />
@@ -199,7 +196,7 @@ export default function CreateEditFoodForm({
                      checked={element?.canMakeGlutenFree}
                      className={className}
                      formError={error ? true : false}
-                     disabled={isLoading}
+                     disabled={isLoading || hasTypeAlready.toLowerCase() === 'topping'}
                      name='canMakeGlutenFree'
                      type='checkbox'
                   />
@@ -214,7 +211,7 @@ export default function CreateEditFoodForm({
                      checked={element?.lactoseFree}
                      className={className}
                      formError={error ? true : false}
-                     disabled={isLoading}
+                     disabled={isLoading || hasTypeAlready.toLowerCase() === 'topping'}
                      name='lactoseFree'
                      type='checkbox'
                   />
@@ -228,7 +225,7 @@ export default function CreateEditFoodForm({
                      checked={element?.canMakeLactoseFree}
                      className={className}
                      formError={error ? true : false}
-                     disabled={isLoading}
+                     disabled={isLoading || hasTypeAlready.toLowerCase() === 'topping'}
                      name='canMakeLactoseFree'
                      type='checkbox'
                   />

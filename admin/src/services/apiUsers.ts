@@ -17,3 +17,12 @@ export const logoutUser = async () => {
 
    return responseData;
 };
+
+export const getOneUser = async (id: string) => {
+   const response = await fetch(BASE_URL + `users/${id}`, OPTIONS('GET'));
+   const responseData = await response.json();
+
+   if (!response.ok) throw new Error(responseData.message);
+
+   return responseData;
+};

@@ -8,6 +8,7 @@
 @import './pages/home';
 @import './pages/reservation';
 @import './pages/settings';
+@import './pages/order.scss';
 
 @import './components/button';
 @import './components/user-input';
@@ -19,3 +20,4 @@
 @import './components/settings-navigation';
 @import './components/foods/create-food';
 @import './components/foods/edit-food';
+@import './components//order-view';

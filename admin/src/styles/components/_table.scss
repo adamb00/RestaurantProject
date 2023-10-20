@@ -20,6 +20,7 @@
 
       &--active {
          background-color: $color-secondary-shade !important;
+         border-bottom: 1px solid $color-primary-shade;
       }
    }
    &__body {

@@ -1,5 +1,9 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { loginUser as loginUserFn, logoutUser as logoutUserFn } from '../../services/apiUsers';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+   loginUser as loginUserFn,
+   logoutUser as logoutUserFn,
+   getOneUser as getOneUserFn,
+} from '../../services/apiUsers';
 import { useAuth } from '../../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
@@ -48,4 +52,17 @@ export const useLogoutUser = () => {
    });
 
    return { logoutUser };
+};
+
+export const useGetOneUser = (id: string) => {
+   const {
+      isLoading,
+      data: currentUser,
+      error,
+   } = useQuery({
+      queryKey: ['user', id],
+      queryFn: () => getOneUserFn(id),
+   });
+
+   return { isLoading, currentUser, error };
 };

@@ -9,8 +9,6 @@ export const useGetReservations = ({ page = 1 }) => {
    } = useQuery({
       queryKey: ['reservations', { page }],
       queryFn: () => getReservationsFn({ page }),
-      refetchInterval: 5000,
-      staleTime: 5000,
    });
 
    return { isLoading, reservations, error };

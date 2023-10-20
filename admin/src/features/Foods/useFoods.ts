@@ -3,6 +3,7 @@ import {
    createFood as createFoodFn,
    getFoods as getFoodsFn,
    updateFood as updateFoodFn,
+   getTypes as getTypesFn,
 } from '../../services/apiFoods';
 import { toast } from 'react-hot-toast';
 import IError from '../../interfaces/IError';
@@ -16,6 +17,19 @@ interface EditProps {
    newFoodData: FieldValues;
    id: string;
 }
+
+export const useGetFoodTypes = () => {
+   const {
+      isLoading,
+      data: types,
+      error,
+   } = useQuery({
+      queryKey: ['foodTypes'],
+      queryFn: getTypesFn,
+   });
+
+   return { isLoading, types, error };
+};
 
 export const useGetFoods = ({ page = 1 }) => {
    const {

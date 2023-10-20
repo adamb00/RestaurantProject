@@ -28,3 +28,10 @@ export const createFood = async (data: object) => {
 
    return responseData;
 };
+
+export const getTypes = async () => {
+   const response = await fetch(BASE_URL + 'foods/types', OPTIONS('GET'));
+   const responseData = await response.json();
+
+   return responseData;
+};

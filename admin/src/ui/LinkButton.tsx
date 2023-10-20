@@ -3,8 +3,8 @@ import { NavLink } from 'react-router-dom';
 
 interface LinkButtonProps {
    to: string;
-   icon: React.ReactNode;
-   activeIcon: React.ReactNode;
+   icon?: React.ReactNode;
+   activeIcon?: React.ReactNode;
 }
 
 export default function LinkButton({ children, to, icon, activeIcon }: PropsWithChildren<LinkButtonProps>) {
