@@ -9,8 +9,6 @@ const foodSchema: Schema = new Schema<IFood>({
       required: [true, 'A food must have a name.'],
       unique: true,
       trim: true,
-      // minlength: [5, 'A food name must have more or equal then 5 characters'],
-      // maxlength: [40, 'A food name must have more or equal then 40 characters'],
    },
    price: {
       type: Number,
@@ -69,6 +67,9 @@ const foodSchema: Schema = new Schema<IFood>({
    },
    canMakeLactoseFree: {
       type: Boolean,
+   },
+   image: {
+      type: String,
    },
 });
 

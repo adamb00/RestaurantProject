@@ -48,6 +48,15 @@ const userSchema: Schema = new Schema<IUser>({
       default: Date.now(),
    },
    address: { type: addressSchema },
+   points: { type: Number, default: 0 },
+   birthday: { type: Date },
+   coupons: [
+      {
+         name: { type: String },
+         discount: { type: Number },
+         active: { type: Boolean, default: true },
+      },
+   ],
 });
 
 userSchema.pre<UserType>('save', async function (this: UserType, next: (err?: CallbackError) => void): Promise<void> {

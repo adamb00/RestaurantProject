@@ -28,7 +28,7 @@ const reservationSchema: Schema = new Schema<IReservation>({
    },
    createdAt: {
       type: Date,
-      default: Date.now,
+      default: Date.now(),
    },
 });
 

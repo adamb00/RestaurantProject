@@ -39,7 +39,7 @@ const reviewSchema = new Schema<ReviewDocument, ReviewModel>({
    },
    food: {
       type: Schema.Types.ObjectId,
-      // ref: 'Food',
+
       required: [true, 'Review must belong to a food.'],
    },
    user: {

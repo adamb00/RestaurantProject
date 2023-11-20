@@ -12,4 +12,7 @@ export default interface IUser {
    createdAt: Date;
    phone: number;
    address: IAddress;
+   points: number;
+   birthday: Date;
+   coupons: [{ name: string; discount: number; active: boolean }];
 }

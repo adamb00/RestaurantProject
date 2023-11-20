@@ -9,4 +9,6 @@ export default interface IOrder extends Document {
    totalPrice: number;
    address: IAddress;
    active: boolean;
+   message: string;
+   coupon: { _id: string; name: string; discount: number; expires: number };
 }

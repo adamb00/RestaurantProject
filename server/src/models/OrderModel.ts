@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose';
 import IOrder from '../interfaces/IOrder';
-import IAddress from '../interfaces/IAddress';
+
 import { addressSchema } from './AddressModel';
 
 const orderSchema: Schema = new Schema<IOrder>({
@@ -20,10 +20,16 @@ const orderSchema: Schema = new Schema<IOrder>({
    totalPrice: Number,
    createdAt: {
       type: Date,
-      default: Date.now(),
+      default: Date.now,
    },
    address: { type: addressSchema, required: [true, 'Please provide us Your address.'] },
    active: { type: Boolean, default: true },
+   message: { type: String },
+   coupon: {
+      name: { type: String },
+      discount: { type: Number, default: 0 },
+      expires: { type: Number },
+   },
 });
 
 const Order = model<IOrder>('Order', orderSchema);

@@ -19,8 +19,6 @@ class Server {
          process.exit(1);
       });
 
-      // const app: Application = new App().app;
-
       const DB = env.MONGO_DB.replace('<PASSWORD>', env.MONGO_PWD);
 
       mongoose.connect(DB).then(() => console.log('DB connection successful!'));

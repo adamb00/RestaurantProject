@@ -18,4 +18,5 @@ export default interface IFood {
    lactoseFree: boolean;
    canMakeLactoseFree: boolean;
    _id: Schema.Types.ObjectId;
+   image: string;
 }
