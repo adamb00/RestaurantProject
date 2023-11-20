@@ -20,3 +20,12 @@ export const getOneOrder = async (id: string) => {
 
    return responseData;
 };
+
+export const updateOrder = async (id: string, data: object) => {
+   const response = await fetch(BASE_URL + `orders/${id}`, OPTIONS('PATCH', data));
+   const responseData = await response.json();
+
+   if (!response.ok) throw new Error(responseData.message);
+
+   return responseData;
+};

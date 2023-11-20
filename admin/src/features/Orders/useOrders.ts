@@ -1,5 +1,20 @@
-import { useQuery } from '@tanstack/react-query';
-import { getOrders as getOrdersFn, getOneOrder as getOneOrderFn } from '../../services/apiOrders';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+   getOrders as getOrdersFn,
+   getOneOrder as getOneOrderFn,
+   updateOrder as updateOrderFn,
+} from '../../services/apiOrders';
+import { toast } from 'react-hot-toast';
+import IError from '../../interfaces/IError';
+
+interface Props {
+   onError: CallableFunction;
+}
+
+interface EditProps {
+   id: string;
+   data: object;
+}
 
 export const useGetOrders = ({ page = 1 }) => {
    const {
@@ -26,4 +41,24 @@ export const useGetOneOrder = (id: string) => {
    });
 
    return { isLoading, currentOrder, error };
+};
+
+export const useUpdateOrder = ({ onError }: Props) => {
+   const queryClient = useQueryClient();
+   const {
+      mutate: updateOrder,
+      isLoading: isUpdating,
+      error: updateError,
+   } = useMutation({
+      mutationFn: ({ id, data }: EditProps) => updateOrderFn(id, data),
+      onSuccess: () => {
+         toast.success('Order successfully updated');
+         queryClient.invalidateQueries({ queryKey: ['order'] });
+      },
+      onError: (error: IError) => {
+         toast.error(error.message);
+         onError(error);
+      },
+   });
+   return { updateError, updateOrder, isUpdating };
 };

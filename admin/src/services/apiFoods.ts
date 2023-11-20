@@ -1,3 +1,4 @@
+import { FieldValues } from 'react-hook-form';
 import { ITEM_PER_PAGE } from '../utils/constants';
 import { BASE_URL, OPTIONS } from '../utils/helper';
 
@@ -20,9 +21,29 @@ export const updateFood = async (data: object, id: string) => {
    return responseData;
 };
 
-export const createFood = async (data: object) => {
-   const response = await fetch(BASE_URL + 'foods', OPTIONS('POST', data));
+export const createFood = async (data: FieldValues) => {
+   const formData: FormData = new FormData();
+
+   for (const key in data) {
+      if (Object.prototype.hasOwnProperty.call(data, key)) {
+         const value = data[key];
+
+         if (key === 'image') {
+            formData.append('image', value);
+         } else if (value) {
+            formData.append(key, value);
+         }
+      }
+   }
+
+   // const response = await fetch(BASE_URL + 'foods', OPTIONS('POST', data));
+
+   console.log(Object.fromEntries(formData));
+
+   const response = await fetch(BASE_URL + 'foods', OPTIONS('POST', formData, 'multipart/form-data'));
    const responseData = await response.json();
+
+   console.log(response);
 
    if (!response.ok) throw new Error(responseData.message);
 

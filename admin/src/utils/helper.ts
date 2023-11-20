@@ -1,12 +1,24 @@
 export const BASE_URL = 'http://192.168.0.33:8000/api/v1/';
 // export const BASE_URL = 'http://localhost:8000/api/v1/';
 
-export const OPTIONS = (method: string, data?: object) => {
+export const OPTIONS = (method: string, data?: FormData | string | object, header: string = 'application/json') => {
+   let headers: Record<string, string> = { 'Content-Type': header };
+   let body: BodyInit | null | undefined;
+
+   if (header === 'multipart/form-data') {
+      headers = {};
+      body = data as FormData;
+   } else if (header === 'application/json' && typeof data === 'object') {
+      body = JSON.stringify(data);
+   } else {
+      body = data as string;
+   }
+
    return {
       method,
       withCredentials: true,
-      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-      body: JSON.stringify(data),
+      headers,
+      body,
    };
 };
 
@@ -57,4 +69,12 @@ export const formatPhoneNumber = (phoneNumber: string) => {
    } else {
       return phoneNumber;
    }
+};
+
+export const formatCurrency = (currency: number) => {
+   return new Intl.NumberFormat('hu-HU', {
+      style: 'currency',
+      currency: 'HUF',
+      maximumFractionDigits: 0,
+   }).format(currency);
 };

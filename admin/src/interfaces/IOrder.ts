@@ -7,5 +7,7 @@ export default interface IOrder {
    totalPrice: number;
    address: IAddress;
    active: boolean;
+   message: string;
    _id: string;
+   coupon: { _id: string; name: string; discount: number };
 }

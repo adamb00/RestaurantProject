@@ -42,6 +42,18 @@
       z-index: -1;
       transition: all 400ms;
    }
+   &--accept {
+      background-color: $color-secondary;
+      color: $color-white;
+   }
+   &--decline {
+      background-color: $color-error;
+      color: $color-white;
+
+      &:hover {
+         background-color: $color-error;
+      }
+   }
 
    &--paginator {
       padding: 1rem;

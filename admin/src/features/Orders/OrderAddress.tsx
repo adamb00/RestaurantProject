@@ -7,12 +7,12 @@ interface OrderAddressType {
 
 export default function OrderAddress({ address }: OrderAddressType) {
    return (
-      <div>
-         <div className='order-container__street'>
-            {address.street} {address.streetNumber}
-         </div>
+      <div className='order-container__address--items'>
          <div className='order-container__city'>
             {address.postalCode}, {address.city}, &nbsp;
+         </div>
+         <div className='order-container__street'>
+            {address.street} {address.streetNumber} &nbsp;
          </div>
          <div className='order-container__floor'>
             (<span>{address.floor && getOrdinalSuffix(+address.floor)} floor</span>,

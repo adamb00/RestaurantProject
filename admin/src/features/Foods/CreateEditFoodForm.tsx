@@ -6,6 +6,7 @@ import { IS_VALID_NUMBER } from '../../utils/helper';
 import IError from '../../interfaces/IError';
 import { useGetFoodTypes } from './useFoods';
 import Loader from '../../ui/Loader';
+import UploadImage from '../../ui/UploadImage';
 
 interface CreateEditFoodFormProps {
    handleOnClick: (data: FieldValues) => Promise<void>;
@@ -90,6 +91,7 @@ export default function CreateEditFoodForm({
                        }
                }
             />
+            <UploadImage control={control} name='image' />
             <div className={`${usage}-food__form--group`}>
                <Dropdown
                   control={control}

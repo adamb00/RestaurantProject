@@ -1,6 +1,7 @@
 import { BASE_URL, OPTIONS } from '../utils/helper';
 
 export const loginUser = async (user: object) => {
+   console.log(user);
    const response = await fetch(BASE_URL + 'admin/signin', OPTIONS('POST', user));
    const responseData = await response.json();
 

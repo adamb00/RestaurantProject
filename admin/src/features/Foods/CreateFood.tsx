@@ -1,4 +1,4 @@
-import { useForm } from 'react-hook-form';
+import { FieldValues, useForm } from 'react-hook-form';
 import { useState } from 'react';
 import IError from '../../interfaces/IError';
 import { useCreateFood } from './useFoods';
@@ -13,7 +13,8 @@ export default function CreateFood() {
       },
    });
 
-   const handleOnClick = async (data: object) => {
+   const handleOnClick = async (data: FieldValues) => {
+      // createFood({ ...formData }, { onSuccess: () => reset() });
       createFood({ ...data }, { onSuccess: () => reset() });
    };
 

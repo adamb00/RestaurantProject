@@ -13,4 +13,5 @@ export default interface IFood {
    canMakeGlutenFree: boolean;
    lactoseFree: boolean;
    canMakeLactoseFree: boolean;
+   image: string;
 }
