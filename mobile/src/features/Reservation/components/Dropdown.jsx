@@ -56,6 +56,7 @@ const styles = StyleSheet.create({
       borderColor: style['color-primary'],
       borderWidth: style['default-boder-width'],
       borderRadius: style['default-border-radius'],
+      backgroundColor: 'inherit',
    },
    rowText: {
       color: style['color-primary'],
@@ -63,7 +64,8 @@ const styles = StyleSheet.create({
       fontSize: 18,
    },
    buttonText: {
-      color: style['color-primary-shade'],
+      color: style['color-dark-grey'],
+      textAlign: 'left',
    },
    drop: {
       borderRadius: style['default-border-radius'],

@@ -27,3 +27,10 @@ export const updateUser = async user => {
 
    return responseData;
 };
+
+export const getCurrentUser = async id => {
+   const response = await fetch(BASE_URL + `users/${id}`, OPTIONS('GET'));
+   const responseData = await response.json();
+
+   return responseData;
+};

@@ -36,7 +36,6 @@ export const updateCart = async ({ cartId, items }) => {
 };
 
 export const deleteCart = async cartId => {
-   console.log(cartId);
    try {
       const response = await fetch(BASE_URL + `cart/${cartId}`, OPTIONS('DELETE'));
       const responseData = await response.json();

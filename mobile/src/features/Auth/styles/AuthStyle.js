@@ -15,12 +15,11 @@ export const styles = StyleSheet.create({
       color: style['color-primary-shade'],
    },
 
-   passwordIcon: {},
    icon: {
       position: 'absolute',
       right: -5,
       top: -58,
-
       borderWidth: 0,
+      color: style['color-secondary-tint'],
    },
 });

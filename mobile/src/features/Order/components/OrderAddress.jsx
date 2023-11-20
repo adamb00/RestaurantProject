@@ -11,7 +11,6 @@ import { getOrdinalSuffix } from '../../../helpers/config';
 const OrderAddress = ({ reverseGeocodeResult }) => {
    const navigation = useNavigation();
 
-   console.log(reverseGeocodeResult);
    const [{ postalCode, city, street, streetNumber }] = reverseGeocodeResult;
 
    let {
@@ -39,6 +38,8 @@ const OrderAddress = ({ reverseGeocodeResult }) => {
             </View>
             <View style={styles.floorDoor}>
                <Text>Floor: {address.floor ? `${getOrdinalSuffix(address.floor)} floor` : 'Floor not given'}</Text>
+            </View>
+            <View>
                <Text>Door: {address.door ? `${getOrdinalSuffix(address.door)} door` : 'Door not given'}</Text>
             </View>
             <View>

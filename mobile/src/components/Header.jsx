@@ -12,14 +12,14 @@ const Header = ({ children }) => {
          colors={[style['color-primary'], style['color-primary-tint']]}
          style={styles.header}
       >
-         <View style={styles.container}>{children}</View>
+         <View style={styles.container}>{children}</View>/
       </LinearGradient>
    );
 };
 
 const styles = StyleSheet.create({
    header: {
-      borderRadius: 80,
+      borderRadius: style['default-border-radius'],
       marginVertical: 20,
       marginHorizontal: 10,
    },

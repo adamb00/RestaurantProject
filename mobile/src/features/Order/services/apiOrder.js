@@ -1,7 +1,7 @@
 import { BASE_URL, OPTIONS } from '../../../helpers/config';
 
 export const getAllOrder = async () => {
-   const response = await fetch(BASE_URL + `order`, OPTIONS('GET'));
+   const response = await fetch(BASE_URL + `orders/currentUser`, OPTIONS('GET'));
    const responseData = await response.json();
 
    return responseData;

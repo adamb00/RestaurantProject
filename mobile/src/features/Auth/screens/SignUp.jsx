@@ -30,7 +30,7 @@ const SignUp = ({ navigation }) => {
 
    return (
       <SafeAreaView style={styles.container}>
-         <KeyboardAwareScrollView>
+         <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
             <Logo />
             <Text style={header_primary}>Sign Up now!</Text>
             <View style={styles.form}>
@@ -38,6 +38,7 @@ const SignUp = ({ navigation }) => {
                   control={control}
                   icon='mail-open-outline'
                   name='email'
+                  placeholder='Please provide us Your e-mail address'
                   rules={{ required: 'Email address is required.' }}
                />
                <View style={styles.passwordContainer}>
@@ -47,6 +48,7 @@ const SignUp = ({ navigation }) => {
                      icon='key-outline'
                      secureTextEntry={!isPasswordVisible}
                      disabled={isCreating}
+                     placeholder='We also need a password'
                      rules={{
                         required: 'Password is required.',
                         minLength: { value: 8, message: 'Password should be minimum 8 characters long.' },
@@ -64,6 +66,7 @@ const SignUp = ({ navigation }) => {
                   icon='key-outline'
                   secureTextEntry={!isPasswordVisible}
                   disabled={isCreating}
+                  placeholder='You need to confirm the previous'
                   rules={{
                      required: 'Please confirm your password',
                      validate: value => value === password || 'The passwords do not match',
@@ -76,13 +79,15 @@ const SignUp = ({ navigation }) => {
                   name='fullName'
                   icon='person-outline'
                   autoCapitalize='words'
-                  rules={{ required: 'Please provide us your full name.' }}
+                  placeholder='Please provide us Your name'
+                  rules={{ required: 'Please provide us Your full name.' }}
                />
                <UserInput
                   control={control}
                   disabled={isCreating}
                   name='phone'
                   icon='call-outline'
+                  placeholder='Please provide us Your phone number'
                   rules={{ required: 'Please provide us your phone number.' }}
                />
 

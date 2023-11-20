@@ -20,5 +20,5 @@ export const useGetCurrentUserCart = () => {
       }
    }, [carts, user, dispatch]);
 
-   return { carts, user };
+   return { currentUserCart, carts, user };
 };

@@ -6,16 +6,20 @@ import { style } from '../styles/style';
 const Welcome = () => {
    const { user } = useAuth();
 
-   return <View>{/* <Text style={styles.welcomeText}>Welcome {user.fullName.split(' ')[1]}</Text> */}</View>;
+   return (
+      <View>
+         <Text style={styles.welcomeText}>Welcome back {user.fullName.split(' ')[1]}</Text>
+      </View>
+   );
 };
 
 const styles = StyleSheet.create({
    welcomeText: {
       color: style['color-light-grey'],
-      fontSize: 30,
+      fontSize: 23,
       textTransform: 'uppercase',
       letterSpacing: 2,
-      // fontFamily: 'Farsan',
+      fontStyle: 'italic',
    },
 });
 

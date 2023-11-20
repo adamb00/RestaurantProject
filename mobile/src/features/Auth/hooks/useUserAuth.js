@@ -1,12 +1,26 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
    createUser as createUserFn,
    loginUser as loginUserFn,
    logoutUser as logoutUserFn,
    updateUser as updateUserFn,
+   getCurrentUser as getCurrentUserFn,
 } from '../services/apiUsers';
 import { useAuth } from '../../../contexts/AuthContext';
 import Toast from 'react-native-toast-message';
+
+export const getCurrentUser = id => {
+   const {
+      isLoading,
+      data: currentUser,
+      error,
+   } = useQuery({
+      queryKey: ['currentUser', id],
+      queryFn: () => getCurrentUserFn(id),
+   });
+
+   return { isLoading, currentUser, error };
+};
 
 export const useCreateUser = () => {
    const queryClient = useQueryClient();
@@ -69,14 +83,34 @@ export const useLogoutUser = () => {
    return { singoutUser, isSigningOut };
 };
 
+// export const useUpdateUser = () => {
+//    const queryClient = useQueryClient();
+//    const {
+//       mutate: updateUser,
+//       isLoading: isUpdating,
+//       error,
+//    } = useMutation({
+//       mutationFn: mutationData => updateUserFn(mutationData),
+//       onSuccess: () => {
+//          queryClient.invalidateQueries({ queryKey: ['user'] });
+//       },
+//    });
+
+//    return { updateUser, isUpdating, error };
+// };
+
 export const useUpdateUser = () => {
    const queryClient = useQueryClient();
+   const { updateUser: updateContext } = useAuth();
    const {
       mutate: updateUser,
       isLoading: isUpdating,
       error,
    } = useMutation({
-      mutationFn: mutationData => updateUserFn(mutationData),
+      mutationFn: mutationData => {
+         updateUserFn(mutationData);
+         updateContext(mutationData);
+      },
       onSuccess: () => {
          queryClient.invalidateQueries({ queryKey: ['user'] });
       },

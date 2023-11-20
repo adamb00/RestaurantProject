@@ -4,11 +4,11 @@ import PropTypes from 'prop-types';
 import { style } from '../styles/style';
 import { LinearGradient } from 'expo-linear-gradient';
 
-const Button = ({ children, handleSubmit, onLoading, circle = false, colors = [], disabled = false }) => {
+const Button = ({ children, handleSubmit, onLoading, colors = [], disabled = false, uniqueStyle }) => {
    return (
       <TouchableOpacity onPress={handleSubmit} disabled={onLoading || disabled}>
          <LinearGradient
-            style={circle ? styles.circle : styles.button}
+            style={[styles.button, uniqueStyle]}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 1 }}
             colors={
@@ -19,7 +19,7 @@ const Button = ({ children, handleSubmit, onLoading, circle = false, colors = []
                   : [colors[0], colors[1]]
             }
          >
-            <Text style={circle ? styles.fontCircle : onLoading || disabled ? styles.disabled : styles.font}>
+            <Text style={onLoading || disabled ? styles.disabled : styles.font}>
                {onLoading ? 'Please wait...' : children}
             </Text>
          </LinearGradient>
@@ -28,12 +28,6 @@ const Button = ({ children, handleSubmit, onLoading, circle = false, colors = []
 };
 
 const styles = StyleSheet.create({
-   circle: {
-      borderRadius: '100%',
-      padding: 15,
-      alignSelf: 'center',
-      justifyContent: 'center',
-   },
    button: {
       borderRadius: style['default-border-radius'],
       paddingVertical: 15,
@@ -65,7 +59,7 @@ Button.propTypes = {
    children: PropTypes.node,
    onLoading: PropTypes.bool,
    handleSubmit: PropTypes.func,
-   circle: PropTypes.bool,
+   uniqueStyle: PropTypes.object,
    colors: PropTypes.array,
    disabled: PropTypes.bool,
 };

@@ -1,5 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
-import { getFoods as getFoodsFn, getTypes as getTypesFn, getOneFood as getOneFoodFn } from '../services/apiFood';
+import {
+   getFoods as getFoodsFn,
+   getTypes as getTypesFn,
+   getOneFood as getOneFoodFn,
+   getTopFavoriteFoods as getTopFavoriteFoodsFn,
+} from '../services/apiFood';
 
 export const useGetFoods = () => {
    const {
@@ -36,4 +41,17 @@ export const useGetFoodTypes = () => {
    });
 
    return { isLoading, types, error };
+};
+
+export const useGetTopFavoriteFoods = () => {
+   const {
+      isLoading,
+      data: favFoods,
+      error,
+   } = useQuery({
+      queryKey: ['favFoods'],
+      queryFn: getTopFavoriteFoodsFn,
+   });
+
+   return { isLoading, favFoods, error };
 };

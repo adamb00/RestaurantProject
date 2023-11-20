@@ -8,7 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 import CartFooter from '../components/CartFooter';
 import Spinner from '../../../components/Spinner';
 
-const Cart = () => {
+export const Cart = () => {
    const cart = useSelector(getCart);
    const navigator = useNavigation();
 
@@ -63,5 +63,3 @@ const styles = StyleSheet.create({
       marginHorizontal: 20,
    },
 });
-
-export default Cart;

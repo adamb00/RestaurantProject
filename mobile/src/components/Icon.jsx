@@ -7,6 +7,7 @@ import { icon, formIcon } from '../styles/style';
 
 const Icon = ({ name, form = true, focused, style, handleOnPress }) => {
    if (!form) return <IonIcon name={name} style={[icon(focused), style]} />;
+
    return (
       <TouchableOpacity onPress={handleOnPress}>
          <IonIcon name={name} style={[formIcon, style]} />

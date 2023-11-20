@@ -3,6 +3,8 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
    cart: [],
    cartId: '',
+   message: '',
+   coupon: {},
 };
 
 const cartSlice = createSlice({
@@ -29,12 +31,8 @@ const cartSlice = createSlice({
       decreaseCartExtras(state, action) {
          let { topping, currentFood } = action.payload;
 
-         console.log(currentFood);
-
          let current = state.cart.find(item => item.food._id === currentFood.food._id);
          if (!current.extras) current.extras = [];
-
-         console.log(current);
 
          const existingExtra = current.extras.find(item => item.topping._id === topping._id);
 
@@ -48,6 +46,22 @@ const cartSlice = createSlice({
                current.extras = current.extras.filter(extra => extra.quantity > 0);
             }
          }
+      },
+      updateFoodMessage(state, action) {
+         const { foodId, message } = action.payload;
+         const cartItem = state.cart.find(item => item.food._id === foodId);
+         if (cartItem) {
+            cartItem.message = message;
+         }
+      },
+      updateCoupon(state, action) {
+         state.coupon = action.payload;
+      },
+      updateCartMessage(state, action) {
+         state.message = action.payload;
+      },
+      setCoupon(state, action) {
+         state.coupon = action.payload;
       },
       setCartId(state, action) {
          state.cartId = action.payload;
@@ -93,6 +107,10 @@ export const {
    increase,
    decrease,
    clear,
+   updateCartMessage,
+   updateFoodMessage,
+   updateCoupon,
+   setCoupon,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;
@@ -112,14 +130,27 @@ export const getTotalItemsQuantity = state => {
 
 export const getCartId = state => state?.cart?.cartId ?? '';
 
-export const getExtrasTotalPrice = state => {
-   const extrasPrice = state.cart.cart.reduce((sum, item) => {
-      if (!item.extras) return 0;
+export const getCartMessage = state => state?.cart?.message ?? '';
 
-      const itemExtrasPrice = item?.extras?.reduce(
-         (itemSum, extra) => itemSum + extra.quantity * extra.topping.price,
-         0
-      );
+export const getCoupon = state => state.cart.coupon ?? {};
+
+export const getExtrasTotalPrice = state => {
+   if (!state || !state.cart || !Array.isArray(state.cart.cart) || state.cart.cart.length === 0) {
+      return 0;
+   }
+
+   const extrasPrice = state.cart.cart.reduce((sum, item) => {
+      if (!item.extras || !Array.isArray(item.extras) || item.extras.length === 0) {
+         return sum;
+      }
+
+      const itemExtrasPrice = item.extras.reduce((itemSum, extra) => {
+         if (extra && extra.topping && typeof extra.topping === 'object' && 'price' in extra.topping) {
+            return itemSum + (extra.quantity * extra.topping.price || 0);
+         }
+         return itemSum;
+      }, 0);
+
       return sum + itemExtrasPrice;
    }, 0);
 

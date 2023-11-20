@@ -44,3 +44,11 @@ export const createReviewOnFood = async mutationData => {
 
    return responseData;
 };
+
+export const getTopFavoriteFoods = async () => {
+   const response = await fetch(BASE_URL + `foods/top-fav`, OPTIONS('GET'));
+
+   const responseData = await response.json();
+
+   return responseData;
+};

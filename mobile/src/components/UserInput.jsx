@@ -18,6 +18,7 @@ const UserInput = ({
    keyboardType = 'default',
    onPressIn,
    onChangeText,
+   placeholder,
 }) => {
    return (
       <View>
@@ -51,8 +52,9 @@ const UserInput = ({
                               : [styles.success, styles.input],
                         ]}
                         secureTextEntry={secureTextEntry}
-                        placeholder={`Enter your ${name} here`}
-                        textAlignVertical={multiline[0] ? 'top' : 'auto'}
+                        placeholder={placeholder}
+                        placeholderTextColor={style['color-dark-grey']}
+                        textAlignVertical={multiline[0] ? 'center' : 'auto'}
                      />
                   </View>
                   {error && <Text style={styles.errorText}>{error.message || 'Error'}</Text>}
@@ -116,6 +118,7 @@ UserInput.propTypes = {
    onPressIn: PropTypes.func,
    onChangeText: PropTypes.func,
    initialValue: PropTypes.string,
+   placeholder: PropTypes.string,
 };
 
 export default UserInput;

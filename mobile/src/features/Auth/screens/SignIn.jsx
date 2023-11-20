@@ -50,7 +50,7 @@ const SignIn = ({ navigation }) => {
 
    return (
       <SafeAreaView style={styles.container}>
-         <KeyboardAwareScrollView>
+         <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
             <View>
                <Logo />
                <Text style={header_primary}>Welcome back</Text>
@@ -61,6 +61,7 @@ const SignIn = ({ navigation }) => {
                   name='email'
                   autoCapitalize='none'
                   icon='mail-open-outline'
+                  placeholder='Your e-mail address'
                   rules={{ required: 'Email address is required.' }}
                />
                <View style={styles.passwordContainer}>
@@ -69,6 +70,7 @@ const SignIn = ({ navigation }) => {
                      name='password'
                      secureTextEntry={!isPasswordVisible}
                      icon='key-outline'
+                     placeholder='Your password'
                      rules={{ required: 'Password is required.' }}
                   />
                   <Icon

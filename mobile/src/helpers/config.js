@@ -74,3 +74,19 @@ export const getOrdinalSuffix = number => {
          return `${number}th`;
    }
 };
+
+export const filterExpiredCoupons = coupons => {
+   const currentTimestamp = Date.now();
+   return coupons.filter(coupon => coupon.expires > currentTimestamp);
+};
+
+export function formatDate(dateStr) {
+   return new Intl.DateTimeFormat('hu', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      hourCycle: 'h23',
+   }).format(new Date(dateStr));
+}

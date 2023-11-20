@@ -58,15 +58,20 @@ const OrderView = ({ types, scrollTo, foods }) => {
    };
 
    return (
-      <ScrollView style={{ height: screenHeight * 0.7 }} ref={scrollViewRef} showsVerticalScrollIndicator={false}>
+      <ScrollView style={{ height: screenHeight * 0.8 }} ref={scrollViewRef} showsVerticalScrollIndicator={false}>
          {types.map(type => (
             <View key={type} style={styles.typeContainer}>
-               <Text style={styles.header_type}>{type.charAt(0).toUpperCase() + type.slice(1)}</Text>
+               {type !== 'topping' && (
+                  <Text style={styles.header_type}>{type.charAt(0).toUpperCase() + type.slice(1)}</Text>
+               )}
                {foods.doc
                   .filter(food => food.type === type)
                   .map(
                      food =>
-                        food.isAvailable && <FoodItem food={food} key={food._id} handleAddToCart={handleAddToCart} />
+                        food.isAvailable &&
+                        food.type !== 'topping' && (
+                           <FoodItem food={food} key={food._id} handleAddToCart={handleAddToCart} />
+                        )
                   )}
             </View>
          ))}

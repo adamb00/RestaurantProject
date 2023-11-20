@@ -12,17 +12,20 @@ const OrderNavigation = ({ types, setScrollTo }) => {
    };
    return (
       <ScrollView style={styles.nav} horizontal={true} showsHorizontalScrollIndicator={false}>
-         {types.map((type, i) => (
-            <TouchableOpacity
-               key={i}
-               style={[styles.navItem, active === type ? styles.navItemActive : '']}
-               onPress={() => handleOnClick(type)}
-            >
-               <Text style={[styles.navText, active === type ? styles.navTextActive : '']}>
-                  {type.charAt(0).toUpperCase() + type.slice(1)}
-               </Text>
-            </TouchableOpacity>
-         ))}
+         {types.map(
+            (type, i) =>
+               type !== 'topping' && (
+                  <TouchableOpacity
+                     key={i}
+                     style={[styles.navItem, active === type ? styles.navItemActive : '']}
+                     onPress={() => handleOnClick(type)}
+                  >
+                     <Text style={[styles.navText, active === type ? styles.navTextActive : '']}>
+                        {type.charAt(0).toUpperCase() + type.slice(1)}
+                     </Text>
+                  </TouchableOpacity>
+               )
+         )}
       </ScrollView>
    );
 };

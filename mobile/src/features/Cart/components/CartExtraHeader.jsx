@@ -7,16 +7,15 @@ import { getCart, getCartId } from '../reducers/cartReducer';
 import { useUpdateCart } from '../hooks/useCart';
 import GoBackOrSaveHeader from '../../../components/GoBackOrSaveHeader';
 
-const CartExtraHeader = ({ currentFoodWithMessage }) => {
+const CartExtraHeader = ({ currentFood }) => {
    const navigation = useNavigation();
    const cart = useSelector(getCart);
    const cartId = useSelector(getCartId);
    const { updateCart } = useUpdateCart();
 
    const handleSave = item => {
-      console.log('extraCart', cart);
       const updatedCart = cart.map(cartItem => {
-         if (cartItem.food._id === currentFoodWithMessage.food._id) {
+         if (cartItem.food._id === currentFood.food._id) {
             return {
                ...cartItem,
                food: { ...cartItem.food },
@@ -33,12 +32,12 @@ const CartExtraHeader = ({ currentFoodWithMessage }) => {
 
    return (
       <GoBackOrSaveHeader handleSave={handleSave}>
-         <Text>{currentFoodWithMessage?.food.name}</Text>
+         <Text>{currentFood?.food.name}</Text>
       </GoBackOrSaveHeader>
    );
 };
 CartExtraHeader.propTypes = {
-   currentFoodWithMessage: PropTypes.object,
+   currentFood: PropTypes.object,
 };
 
 export default CartExtraHeader;

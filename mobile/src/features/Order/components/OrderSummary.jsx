@@ -13,7 +13,7 @@ import {
 import OrderSummaryItems from './OrderSummaryItems';
 import { formatCurrency } from '../../../helpers/config';
 
-const OrderSummary = ({ deliveryPrice }) => {
+const OrderSummary = ({ deliveryPrice, discount, totalPrice }) => {
    const cart = useSelector(getCart);
    const extrasPrice = useSelector(getExtrasTotalPrice);
    const foodsPrice = useSelector(getFoodsTotalPrice);
@@ -28,7 +28,7 @@ const OrderSummary = ({ deliveryPrice }) => {
             </View>
             <View style={styles.food}>
                {cart.map(item => (
-                  <OrderSummaryItems item={item} key={item._id} />
+                  <OrderSummaryItems item={item} key={item.food._id} />
                ))}
             </View>
             <View style={styles.dataContainer}>
@@ -47,6 +47,12 @@ const OrderSummary = ({ deliveryPrice }) => {
                <Text>Delivery Price:</Text>
                <Text>{formatCurrency(deliveryPrice)}</Text>
             </View>
+            {discount && (
+               <View style={styles.dataContainer}>
+                  <Text>Discount:</Text>
+                  <Text>{formatCurrency((totalPrice / 100) * discount)}</Text>
+               </View>
+            )}
          </View>
       </SafeAreaView>
    );
@@ -54,6 +60,8 @@ const OrderSummary = ({ deliveryPrice }) => {
 
 OrderSummary.propTypes = {
    deliveryPrice: PropTypes.number,
+   discount: PropTypes.number,
+   totalPrice: PropTypes.number,
 };
 const styles = StyleSheet.create({
    container: {

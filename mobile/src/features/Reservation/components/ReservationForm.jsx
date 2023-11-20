@@ -47,6 +47,7 @@ const ReservationForm = () => {
             <View style={styles.form}>
                <UserInput
                   control={control}
+                  placeholder='Number of guests'
                   name='numOfGuests'
                   icon='person-add-outline'
                   keyboardType='numeric'
@@ -55,10 +56,11 @@ const ReservationForm = () => {
                <Dropdown guests={+guests} control={control} />
                <UserInput
                   control={control}
+                  placeholder='You can type here any message'
                   name='message'
                   icon='chatbox-outline'
                   multiline={[true, 5]}
-                  rules={{ required: 'Please provide us the number of guests' }}
+                  rules={{ required: 'Please provide us any inital message' }}
                />
 
                {!showPicker && (
@@ -68,6 +70,7 @@ const ReservationForm = () => {
                         name='selectedDate'
                         icon='calendar-outline'
                         onPressIn={toggleDatePicker}
+                        placeholder='Please select a date'
                      />
                   </Pressable>
                )}
