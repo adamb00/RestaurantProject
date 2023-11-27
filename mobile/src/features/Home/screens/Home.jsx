@@ -1,5 +1,5 @@
 import React from 'react';
-import { SafeAreaView, StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { useGetCurrentLocation } from '../../Order/hooks/useGetCurrentLocation';
 import { useAuth } from '../../../contexts/AuthContext';
@@ -12,6 +12,10 @@ import Sidebar from '../components/Sidebar';
 import { useSidebar } from '../hooks/useSidebar';
 import TopFavoriteFoods from '../components/TopFavoriteFoods';
 import { useUserHasBirthdayCoupon } from '../hooks/useUserHasBirthdayCoupon';
+import Ad from '../components/Ad';
+import Spinner from '../../../components/Spinner';
+import { useGetAllAds } from '../hooks/useAds';
+import { useGetTopFavoriteFoods } from '../../Foods/hooks/useFood';
 
 export const Home = () => {
    useGetCurrentLocation();
@@ -28,6 +32,10 @@ export const Home = () => {
    };
 
    const { userAlreadyGetBirthdayCoupon, setUserAlreadyGetBirthdayCoupon } = useUserHasBirthdayCoupon(user);
+   const { isLoading: isLoadingAds, ads } = useGetAllAds();
+   const { isLoading: isLoadingFavFoods } = useGetTopFavoriteFoods();
+
+   if (isLoadingAds || isLoadingFavFoods) return <Spinner />;
 
    return (
       <View>
@@ -40,7 +48,7 @@ export const Home = () => {
             <Icon name='menu-outline' handleOnPress={handleOnPress} style={styles.icon} />
          </LinearGradient>
          {sidebarIsOpen && <Sidebar sidebarPosition={sidebarPosition} closeSidebar={closeSidebar} />}
-         <SafeAreaView style={styles.container}>
+         <ScrollView>
             {!user.birthday && <BirthdayBox sidebarIsOpen={sidebarIsOpen} />}
             {!userAlreadyGetBirthdayCoupon &&
                userBday.getMonth() === today.getMonth() &&
@@ -48,13 +56,13 @@ export const Home = () => {
                   <BirthdayGift setUserAlreadyGetBirthdayCoupon={setUserAlreadyGetBirthdayCoupon} />
                )}
             <TopFavoriteFoods />
-         </SafeAreaView>
+            {ads.doc && <Ad />}
+         </ScrollView>
       </View>
    );
 };
 
 const styles = StyleSheet.create({
-   container: {},
    header: {
       height: 110,
       alignContent: 'center',

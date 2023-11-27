@@ -1,5 +1,5 @@
 import React from 'react';
-import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View, ScrollView } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View, ScrollView, Image, Dimensions } from 'react-native';
 import StarRating from 'react-native-star-rating-widget';
 
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -10,6 +10,7 @@ import { useGetReviewsOnFood } from '../hooks/useReviewsOnFood';
 import FoodReviews from './FoodReviews';
 import { useGetOneFood } from '../hooks/useFood';
 import Spinner from '../../../components/Spinner';
+import { useGetFoodImage } from '../hooks/useGetFoodImage';
 
 const FoodInfo = () => {
    const route = useRoute();
@@ -17,6 +18,10 @@ const FoodInfo = () => {
    const food = route.params;
    const { reviews } = useGetReviewsOnFood(food._id);
    const { isLoading, currentFood } = useGetOneFood(food._id);
+
+   const screenWidht = Dimensions.get('window').width;
+
+   const image = useGetFoodImage(food.image);
 
    if (isLoading || !currentFood) return <Spinner />;
 
@@ -58,11 +63,16 @@ const FoodInfo = () => {
                   </View>
                )}
                <View style={styles.container}>
-                  <Text style={styles.headerElem}>More details</Text>
-                  <Text style={header_info}>Gluten free?</Text>
-                  <Text style={[styles.description, descText]}>{glutenFree(food)}</Text>
-                  <Text style={header_info}>Lactose free?</Text>
-                  <Text style={[styles.description, descText]}>{lactoseFree(food)}</Text>
+                  <View style={[styles.imageContainer, { flexDirection: screenWidht < 800 ? 'column' : 'row' }]}>
+                     <View>
+                        <Text style={styles.headerElem}>More details</Text>
+                        <Text style={header_info}>Gluten free?</Text>
+                        <Text style={[styles.description, descText]}>{glutenFree(food)}</Text>
+                        <Text style={header_info}>Lactose free?</Text>
+                        <Text style={[styles.description, descText]}>{lactoseFree(food)}</Text>
+                     </View>
+                     <Image source={image} style={[styles.image, { width: screenWidht < 800 ? '100%' : 200 }]} />
+                  </View>
                </View>
                <View style={styles.container}>
                   <Text style={styles.headerElem}>Price information</Text>
@@ -112,6 +122,17 @@ const styles = StyleSheet.create({
       paddingBottom: 20,
    },
 
+   imageContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      gap: 20,
+   },
+   image: {
+      height: 200,
+      borderRadius: style['default-border-radius'],
+      marginHorizontal: 10,
+   },
    container_title: {
       display: 'flex',
       flexDirection: 'row',
@@ -129,6 +150,7 @@ const styles = StyleSheet.create({
    },
    description: {
       marginTop: 10,
+      flexWrap: 'wrap',
    },
 });
 

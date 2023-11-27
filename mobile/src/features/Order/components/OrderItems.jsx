@@ -3,7 +3,7 @@ import MapView, { Marker } from 'react-native-maps';
 import { SafeAreaView, StyleSheet, View, Image, ScrollView, Text } from 'react-native';
 import { shadowProp, style } from '../../../styles/style';
 import { useLocation } from '../../../contexts/LocationContext';
-import { ZOOM_LEVEL, formatCurrency } from '../../../helpers/config';
+import { DELIVERY_PRICE, WRAPPING_PRICE, ZOOM_LEVEL, formatCurrency } from '../../../helpers/config';
 import OrderAddress from './OrderAddress';
 import LogoImage from '../../../../assets/bandula_logo_png.png';
 import Spinner from '../../../components/Spinner';
@@ -49,10 +49,9 @@ const OrderItems = () => {
 
    const extrasPrice = useSelector(getExtrasTotalPrice);
    const foodsPrice = useSelector(getFoodsTotalPrice);
-   const wrappingPrice = useSelector(getTotalItemsQuantity) * 250;
-   const deliveryPrice = 850;
+   const wrappingPrice = useSelector(getTotalItemsQuantity) * WRAPPING_PRICE;
 
-   let totalPrice = extrasPrice + foodsPrice + wrappingPrice + deliveryPrice;
+   let totalPrice = extrasPrice + foodsPrice + wrappingPrice + DELIVERY_PRICE;
    const disc = (totalPrice / 100) * coupon.discount;
 
    if (disc) totalPrice = totalPrice - disc;
@@ -73,7 +72,7 @@ const OrderItems = () => {
    const handleOrder = () => {
       const updatedCoupons = user.coupons.map(coup => {
          if (coup.name === coupon.name) {
-            return { ...coup, active: false };
+            return { ...coup, status: 'active' };
          }
          return coup;
       });
@@ -140,7 +139,7 @@ const OrderItems = () => {
                <OrderAddress reverseGeocodeResult={reverseGeocodeResult} />
             </View>
             <View style={shadowProp}>
-               <OrderSummary deliveryPrice={deliveryPrice} discount={coupon.discount} totalPrice={totalPrice} />
+               <OrderSummary discount={coupon.discount} totalPrice={totalPrice} />
             </View>
             <View style={[shadowProp, styles.shadow]}>
                <UserInput

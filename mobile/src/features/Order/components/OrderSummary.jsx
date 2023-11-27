@@ -11,13 +11,13 @@ import {
    getTotalItemsQuantity,
 } from '../../Cart/reducers/cartReducer';
 import OrderSummaryItems from './OrderSummaryItems';
-import { formatCurrency } from '../../../helpers/config';
+import { DELIVERY_PRICE, WRAPPING_PRICE, formatCurrency } from '../../../helpers/config';
 
-const OrderSummary = ({ deliveryPrice, discount, totalPrice }) => {
+const OrderSummary = ({ discount, totalPrice }) => {
    const cart = useSelector(getCart);
    const extrasPrice = useSelector(getExtrasTotalPrice);
    const foodsPrice = useSelector(getFoodsTotalPrice);
-   const wrappingPrice = useSelector(getTotalItemsQuantity) * 250;
+   const wrappingPrice = useSelector(getTotalItemsQuantity) * WRAPPING_PRICE;
 
    return (
       <SafeAreaView>
@@ -45,7 +45,7 @@ const OrderSummary = ({ deliveryPrice, discount, totalPrice }) => {
             </View>
             <View style={styles.dataContainer}>
                <Text>Delivery Price:</Text>
-               <Text>{formatCurrency(deliveryPrice)}</Text>
+               <Text>{formatCurrency(DELIVERY_PRICE)}</Text>
             </View>
             {discount && (
                <View style={styles.dataContainer}>
@@ -59,7 +59,6 @@ const OrderSummary = ({ deliveryPrice, discount, totalPrice }) => {
 };
 
 OrderSummary.propTypes = {
-   deliveryPrice: PropTypes.number,
    discount: PropTypes.number,
    totalPrice: PropTypes.number,
 };

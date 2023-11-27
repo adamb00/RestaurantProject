@@ -1,5 +1,5 @@
 import React from 'react';
-import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useGetAllOrder } from '../../Order/hooks/useOrder';
 import Spinner from '../../../components/Spinner';
 import PreviousOrderItem from '../components/PreviousOrderItem';
@@ -11,7 +11,7 @@ const PreviousOrders = () => {
    if (isLoading) return <Spinner />;
 
    return (
-      <SafeAreaView>
+      <ScrollView style={{ marginVertical: 50 }}>
          <Text style={header_primary}>Previous Orders</Text>
          <Text style={[header_secondary, styles.total]}>Total: {orders.numOfOrders}</Text>
 
@@ -22,7 +22,7 @@ const PreviousOrders = () => {
                ))}
             </ScrollView>
          </View>
-      </SafeAreaView>
+      </ScrollView>
    );
 };
 

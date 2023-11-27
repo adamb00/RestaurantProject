@@ -3,6 +3,9 @@ export const BASE_URL = 'http://192.168.0.33:8000/api/v1/';
 
 export const ZOOM_LEVEL = 0.001;
 
+export const DELIVERY_PRICE = 850;
+export const WRAPPING_PRICE = 250;
+
 export const OPTIONS = (method, data) => {
    return {
       method,
@@ -37,7 +40,7 @@ export const glutenFree = food => {
    } else if (!food.glutenFree && food.canMakeGlutenFree) {
       return 'To get this food gluten-free, please ask for it while ordering.';
    } else if (!food.glutenFree && !food.canMakeGlutenFree) {
-      return 'Sorry, but unfortunately, there is no way to make this gluten-free.';
+      return 'Sorry, but unfortunately, there is no way to make this food gluten-free.';
    }
 
    return 'Information about gluten availability not found for this food.';
@@ -49,7 +52,7 @@ export const lactoseFree = food => {
    } else if (!food.lactoseFree && food.canMakeLactoseFree) {
       return 'To get this food lactose-free, please ask for it while ordering.';
    } else if (!food.lactoseFree && !food.canMakeLactoseFree) {
-      return 'Sorry, but unfortunately, there is no way to make this lactose-free.';
+      return 'Sorry, but unfortunately, there is no way to make this food lactose-free.';
    }
 
    return 'Information about lactose availability not found for this food.';
