@@ -1,6 +1,7 @@
 import IAddress from './IAddress';
+import { Document } from 'mongoose';
 
-export default interface IUser {
+export default interface IUser extends Document {
    fullName: string;
    email: string;
    role: string;

@@ -1,20 +1,13 @@
 import { Query, Document, Types } from 'mongoose';
 import { ParsedQs } from 'qs';
-import IReservation from '../interfaces/IReservation';
 
-export default class APIFeatures {
+export default class APIFeatures<T extends Document> {
    constructor(
-      public query: Query<
-         (Document<unknown, {}, IReservation> & IReservation & { _id: Types.ObjectId })[],
-         Document<unknown, {}, IReservation> & IReservation & { _id: Types.ObjectId },
-         {},
-         IReservation,
-         'find'
-      >,
+      public query: Query<T[], Document<unknown, {}, T> & T & { _id: Types.ObjectId }, {}, T>,
       public queryString: ParsedQs
    ) {}
 
-   public filter() {
+   public filter(): APIFeatures<T> {
       const queryObject = { ...this.queryString };
       const excludedFields = ['page', 'sort', 'limit', 'fields'];
       excludedFields.forEach(el => delete queryObject[el]);
@@ -28,7 +21,7 @@ export default class APIFeatures {
       return this;
    }
 
-   public sort() {
+   public sort(): APIFeatures<T> {
       if (this.queryString.sort) {
          const sortBy = this.queryString.sort.toString().split(',').join(' ');
          this.query = this.query.sort(sortBy);
@@ -38,7 +31,7 @@ export default class APIFeatures {
       return this;
    }
 
-   public limitFields() {
+   public limitFields(): APIFeatures<T> {
       if (this.queryString.fields) {
          const fields = this.queryString.fields.toString().split(',').join(' ');
          this.query = this.query.select(fields);
@@ -48,7 +41,7 @@ export default class APIFeatures {
       return this;
    }
 
-   public paginate() {
+   public paginate(): APIFeatures<T> {
       const page = parseInt(this.queryString.page as string) || 1;
       const limit = parseInt(this.queryString.limit as string) || 100;
       const skip = (page - 1) * limit;

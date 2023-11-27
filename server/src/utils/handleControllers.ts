@@ -1,17 +1,12 @@
 import catchAsync from './catchAsync';
-import { NextFunction, Request, Response, request } from 'express';
+import { NextFunction, Request, Response } from 'express';
 
 import APIFeatures from './apiFeatures';
 import AppError from './appError';
-// import IFood from '../interfaces/IFood';
-// import IReservation from '../interfaces/IReservation';
-// import IUser from '../interfaces/IUser';
+import Ad from '../models/AdModel';
+import { Model, Document, IfAny, Require_id } from 'mongoose';
 
-// type GlobalModel<T extends IFood | IUser | IReservation> = {
-//    Model: T;
-// };
-
-export const getAll = (Model: any, filterFn?: (req: Request) => object) => {
+export const getAll = <T extends Document>(Model: Model<T>, filterFn?: (req: Request) => object) => {
    return catchAsync(async (req: Request, res: Response, _next: NextFunction): Promise<void> => {
       let filter: object = {};
 
@@ -35,14 +30,19 @@ export const getAll = (Model: any, filterFn?: (req: Request) => object) => {
    });
 };
 
-export const createOne = (Model: any, customizeRequestBody?: (req: Request) => void) => {
+export const createOne = <T extends Document>(Model: Model<T>, customizeRequestBody?: (req: Request) => void) => {
    return catchAsync(async (req: Request, res: Response, _next: NextFunction): Promise<void> => {
       if (customizeRequestBody) {
          customizeRequestBody(req);
       }
 
       try {
-         const doc = await Model.create(req.body);
+         let doc;
+
+         if (Model.modelName === 'Ad') {
+            const adData = { ...req.body, expirationDate: new Date(Date.now() + 12 * 60 * 60 * 1000) };
+            doc = await Model.create(adData);
+         } else doc = await Model.create(req.body);
 
          res.status(201).json({
             status: 'success',
@@ -55,7 +55,7 @@ export const createOne = (Model: any, customizeRequestBody?: (req: Request) => v
    });
 };
 
-export const updateOne = (Model: any) => {
+export const updateOne = <T extends Document>(Model: Model<T>) => {
    return catchAsync(async (req: Request, res: Response, next: NextFunction): Promise<void> => {
       try {
          const doc = await Model.findByIdAndUpdate(req.params.id, req.body, {
@@ -79,11 +79,11 @@ export const updateOne = (Model: any) => {
    });
 };
 
-export const getOne = (Model: any, populateOptions?: any) => {
+export const getOne = <T extends Document>(Model: Model<T>) => {
    return catchAsync(async (req: Request, res: Response, next: NextFunction): Promise<void> => {
       let query = Model.findById(req.params.id);
-      if (populateOptions) query = query.populate(populateOptions);
-      const doc = await query;
+
+      const doc = (await query.exec()) as T | null;
 
       if (!doc) {
          return next(new AppError('No document found with that ID', 404));
@@ -95,7 +95,7 @@ export const getOne = (Model: any, populateOptions?: any) => {
    });
 };
 
-export const deleteOne = (Model: any) => {
+export const deleteOne = <T extends Document>(Model: Model<T>) => {
    return catchAsync(async (req: Request, res: Response, next: NextFunction): Promise<void> => {
       const doc = await Model.findByIdAndDelete(req.params.id);
       if (!doc) {

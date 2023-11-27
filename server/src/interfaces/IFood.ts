@@ -1,6 +1,6 @@
-import { Schema } from 'mongoose';
+import { Schema, Document } from 'mongoose';
 
-export default interface IFood {
+export default interface IFood extends Document {
    name: string;
    price: number;
    ratingsAverage: number;

@@ -1,27 +1,9 @@
 import { Model, Query, Schema, model, Document, CallbackError } from 'mongoose';
-import IReview from '../interfaces/IReview';
-import { Request } from 'express';
+import IReview, { CustomQuery, ReviewModel } from '../interfaces/IReview';
 import Food from './FoodModel';
 import IFood from '../interfaces/IFood';
-import IUser from '../interfaces/IUser';
 
-interface ReviewDocument extends Document {
-   review: string;
-   rating: number;
-   createdAt: Date;
-   food: IFood;
-   user: IUser;
-}
-
-interface ReviewModel extends Model<ReviewDocument> {
-   calcAverageRatings(food: IFood): Promise<void>;
-}
-
-interface CustomQuery extends Query<ReviewDocument | null, ReviewDocument> {
-   r?: ReviewDocument | null;
-}
-
-const reviewSchema = new Schema<ReviewDocument, ReviewModel>({
+const reviewSchema = new Schema<IReview, ReviewModel>({
    review: {
       type: String,
       required: [true, 'Review must contain any description.'],
@@ -117,6 +99,6 @@ reviewSchema.post<CustomQuery>(/^findOneAnd/, async function () {
    }
 });
 
-const Review = model<ReviewDocument, ReviewModel>('Review', reviewSchema);
+const Review = model<IReview, ReviewModel>('Review', reviewSchema);
 
 export default Review;

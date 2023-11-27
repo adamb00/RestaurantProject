@@ -1,6 +1,5 @@
 import { Model, Schema, model } from 'mongoose';
 import IFood from '../interfaces/IFood';
-import { NextFunction } from 'express';
 import slugify from 'slugify';
 
 const foodSchema: Schema = new Schema<IFood>({

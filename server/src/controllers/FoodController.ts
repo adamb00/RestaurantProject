@@ -2,7 +2,6 @@ import { NextFunction, Request, Response } from 'express';
 import Food from '../models/FoodModel';
 import catchAsync from '../utils/catchAsync';
 import * as handler from './../utils/handleControllers';
-import multer from 'multer';
 import { upload } from '../middlewares/uploadPhoto';
 
 export default class FoodController {
@@ -26,7 +25,7 @@ export default class FoodController {
    public getFoodStats = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
       const foods = await Food.aggregate([
          {
-            $match: { ratingsAverage: { $gt: 4.4 } },
+            $match: { ratingsAverage: { $gt: 4.6 } },
          },
          {
             $match: { type: { $ne: 'side' } },

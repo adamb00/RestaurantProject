@@ -1,4 +1,4 @@
-import { CallbackError, InferSchemaType, Schema, model } from 'mongoose';
+import { CallbackError, InferSchemaType, Schema, model, Document } from 'mongoose';
 import IUser from '../interfaces/IUser';
 import validator from 'validator';
 import bcrypt from 'bcrypt';
@@ -68,6 +68,7 @@ userSchema.pre<UserType>('save', async function (this: UserType, next: (err?: Ca
    next();
 });
 
-const User = model<UserType>('User', userSchema);
+const User = model<IUser>('User', userSchema);
+// const User = model<UserType>('User', userSchema);
 export type UserType = InferSchemaType<typeof userSchema>;
 export default User;

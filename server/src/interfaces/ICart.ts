@@ -1,13 +1,13 @@
-import { Document, ObjectId } from 'mongoose';
+import { ObjectId, Document } from 'mongoose';
 import IFood from './IFood';
 
-export interface IExtras {
+export interface IExtras extends Document {
    topping: IFood;
    quantity: number;
 }
 
-export interface ICartItem {
-   food: IFood;
+export interface ICartItem extends Document {
+   food: IFood | ObjectId;
    name: string;
    price: number;
    quantity: number;

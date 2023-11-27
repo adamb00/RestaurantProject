@@ -1,7 +1,6 @@
 import { Router } from 'express';
 import FoodController from '../controllers/FoodController';
 import ReveiwRouter from './ReviewRoute';
-import { upload } from '../middlewares/uploadPhoto';
 import { resizeImage } from '../middlewares/uploadPhoto';
 
 const router: Router = Router();
@@ -14,9 +13,12 @@ router.route('/top-fav').get(foodController.getFoodStats);
 router
    .route('/')
    .get(foodController.getAllFoods)
-   .post(foodController.uploadImage, resizeImage, foodController.createFood);
+   .post(foodController.uploadImage, resizeImage(500), foodController.createFood);
 
-router.route('/:id').get(foodController.getOneFood).patch(foodController.updateOne);
+router
+   .route('/:id')
+   .get(foodController.getOneFood)
+   .patch(foodController.uploadImage, resizeImage(500), foodController.updateOne);
 router.use('/:foodId/reviews', ReveiwRouter);
 
 export default router;

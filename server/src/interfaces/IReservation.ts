@@ -1,6 +1,7 @@
 import IUser from './IUser';
+import { Document } from 'mongoose';
 
-export default interface IReservation {
+export default interface IReservation extends Document {
    user: IUser;
    numOfGuests: number;
    needMenu: boolean;

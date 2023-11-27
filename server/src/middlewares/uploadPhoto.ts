@@ -8,6 +8,7 @@ const multerStore = multer.memoryStorage();
 
 const filter = (req: Request, file: Express.Multer.File, cb: FileFilterCallback) => {
    req.file = file;
+
    if (file.mimetype.startsWith('image')) {
       cb(null, true);
    } else {
@@ -15,25 +16,30 @@ const filter = (req: Request, file: Express.Multer.File, cb: FileFilterCallback)
    }
 };
 
-export const resizeImage = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-   if (!req.file) return next();
+export const resizeImage = (resize: number) =>
+   catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+      if (!req.file) return next();
 
-   req.file.filename = `${req.body.name.toLowerCase().replaceAll(' ', '_')}.jpeg`;
+      req.file.filename = `${req.body.name.toLowerCase().replaceAll(' ', '_')}.png`;
 
-   const outputPath = path.join(__dirname, '../../../assets', req.file.filename);
+      const outputPath = path.join(__dirname, '../../../mobile/assets', req.file.filename);
 
-   await sharp(req.file.buffer)
-      .rotate()
-      .resize(500, 500)
-      .withMetadata()
-      .toFormat('png')
-      .jpeg({ quality: 90 })
-      .toFile(outputPath);
+      await sharp(req.file.buffer)
+         .rotate()
+         .resize({
+            width: resize,
+            height: resize,
+            fit: 'inside',
+         })
+         .withMetadata()
+         .toFormat('png')
+         .jpeg({ quality: 90 })
+         .toFile(outputPath);
 
-   req.body.image = req.file.filename;
+      req.body.image = req.file.filename;
 
-   next();
-});
+      next();
+   });
 
 export const upload = multer({
    storage: multerStore,

@@ -1,5 +1,5 @@
-import { ObjectId } from 'mongoose';
-import { ICart, ICartItem } from './ICart';
+import { ObjectId, Document } from 'mongoose';
+import { ICartItem } from './ICart';
 import IAddress from './IAddress';
 
 export default interface IOrder extends Document {
@@ -7,8 +7,9 @@ export default interface IOrder extends Document {
    user: ObjectId;
    createdAt: Date;
    totalPrice: number;
+   numOfItems: number;
    address: IAddress;
-   active: boolean;
+   status: string;
    message: string;
    coupon: { _id: string; name: string; discount: number; expires: number };
 }

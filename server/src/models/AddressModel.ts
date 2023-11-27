@@ -1,4 +1,4 @@
-import { InferSchemaType, Schema, model } from 'mongoose';
+import { Schema } from 'mongoose';
 import IAddress from '../interfaces/IAddress';
 
 export const addressSchema = new Schema<IAddress>({

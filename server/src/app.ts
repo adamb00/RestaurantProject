@@ -10,6 +10,7 @@ import FoodRouter from './routes/FoodRoute';
 import ReviewRouter from './routes/ReviewRoute';
 import CartRouter from './routes/CartRoute';
 import OrderRouter from './routes/OrderRoute';
+import AdRouter from './routes/AdRoute';
 
 import AppError from './utils/appError';
 
@@ -51,6 +52,7 @@ export default class App {
       this.app.use(`/api/${env.VERSION}/review`, ReviewRouter);
       this.app.use(`/api/${env.VERSION}/cart`, CartRouter);
       this.app.use(`/api/${env.VERSION}/orders`, OrderRouter);
+      this.app.use(`/api/${env.VERSION}/ad`, AdRouter);
    }
 
    private errors(): void {
