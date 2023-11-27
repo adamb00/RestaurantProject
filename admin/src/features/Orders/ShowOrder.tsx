@@ -11,7 +11,7 @@ import IError from '../../interfaces/IError';
 import { useState } from 'react';
 
 export default function ShowOrder() {
-   const id = useParams().id;
+   const { id } = useParams();
    const [error, setError] = useState<IError>();
 
    const { updateOrder, isUpdating } = useUpdateOrder({
@@ -22,10 +22,13 @@ export default function ShowOrder() {
 
    const navigation = useNavigate();
 
-   const { currentOrder, isLoading: isLoadingOrder } = useGetOneOrder(id!);
-   const { currentUser, isLoading: isLoadingUser } = useGetOneUser(currentOrder?.doc?.user);
+   const orderId = id ?? '';
 
-   console.log(currentOrder);
+   const { currentOrder, isLoading: isLoadingOrder } = useGetOneOrder(orderId);
+
+   const userId = currentOrder?.doc?.user;
+
+   const { currentUser, isLoading: isLoadingUser } = useGetOneUser(userId);
 
    if (isLoadingOrder || isLoadingUser) return <Loader />;
 
@@ -34,11 +37,12 @@ export default function ShowOrder() {
 
    // TODO
    const handleDeclineOrder = () => {
-      console.log('decline');
+      updateOrder({ id: order._id, data: { ...order, status: 'declined' } });
+      navigation('/orders');
    };
 
    const handleAcceptOrder = () => {
-      updateOrder({ id: order._id, data: { ...order, active: false } });
+      updateOrder({ id: order._id, data: { ...order, status: 'done' } });
       navigation('/orders');
    };
 

@@ -1,3 +1,5 @@
+import { FieldValues } from 'react-hook-form';
+
 export const BASE_URL = 'http://192.168.0.33:8000/api/v1/';
 // export const BASE_URL = 'http://localhost:8000/api/v1/';
 
@@ -77,4 +79,22 @@ export const formatCurrency = (currency: number) => {
       currency: 'HUF',
       maximumFractionDigits: 0,
    }).format(currency);
+};
+
+export const formatToFormData = (data: FieldValues) => {
+   const formData: FormData = new FormData();
+
+   for (const key in data) {
+      if (Object.prototype.hasOwnProperty.call(data, key)) {
+         const value = data[key];
+
+         if (key === 'image') {
+            formData.append('image', value);
+         } else if (value) {
+            formData.append(key, value);
+         }
+      }
+   }
+
+   return formData;
 };

@@ -18,7 +18,7 @@ export default function EditFood() {
       <div className='edit-food'>
          <Table>
             <Table.Header>
-               <Table.Row active={false}>
+               <Table.Row status=''>
                   <th className='table__head'>Index</th>
                   <th className='table__head'>Name</th>
                   <th className='table__head'>Price</th>

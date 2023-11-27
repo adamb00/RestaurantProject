@@ -14,7 +14,6 @@ export default function CreateFood() {
    });
 
    const handleOnClick = async (data: FieldValues) => {
-      // createFood({ ...formData }, { onSuccess: () => reset() });
       createFood({ ...data }, { onSuccess: () => reset() });
    };
 

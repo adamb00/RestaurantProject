@@ -20,6 +20,7 @@ export const logoutUser = async () => {
 };
 
 export const getOneUser = async (id: string) => {
+   if (id === undefined) return null;
    const response = await fetch(BASE_URL + `users/${id}`, OPTIONS('GET'));
    const responseData = await response.json();
 

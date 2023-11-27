@@ -12,6 +12,7 @@ import { useAuth } from './contexts/AuthContext';
 import CreateFood from './features/Foods/CreateFood';
 import EditFood from './features/Foods/EditFood';
 import ShowOrder from './features/Orders/ShowOrder';
+import UploadAds from './features/Settings/UploadAds';
 
 const PrivateRoute = () => {
    const { isAuthenticated } = useAuth();
@@ -64,6 +65,10 @@ const router = createBrowserRouter([
                      {
                         path: 'create-user',
                         element: <CreateUser />,
+                     },
+                     {
+                        path: 'upload-ad',
+                        element: <UploadAds />,
                      },
                   ],
                },

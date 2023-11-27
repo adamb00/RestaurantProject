@@ -6,7 +6,7 @@ export default interface IOrder {
    createdAt: string;
    totalPrice: number;
    address: IAddress;
-   active: boolean;
+   status: string;
    message: string;
    _id: string;
    coupon: { _id: string; name: string; discount: number };

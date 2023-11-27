@@ -15,7 +15,7 @@ export default function OrderTableRow({ element, index }: OrderTableRow) {
    const { currentUser } = useGetOneUser(element.user);
 
    return (
-      <Table.Row active={element.active} key={index}>
+      <Table.Row status={element.status} key={index}>
          <td className='table__data'>{index + 1}</td>
          <td className='table__data'>{currentUser?.doc?.fullName}</td>
          <td className='table__data'>{formatDate(element.createdAt)}</td>

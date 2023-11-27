@@ -3,7 +3,7 @@ import { PropsWithChildren, createContext } from 'react';
 export const TableContext = createContext('');
 
 interface TableRowProps {
-   active?: boolean;
+   status?: string;
 }
 
 const Table = ({ children }: PropsWithChildren) => {
@@ -16,8 +16,20 @@ const Table = ({ children }: PropsWithChildren) => {
 const Header = ({ children }: PropsWithChildren) => {
    return <thead className='table__header'>{children}</thead>;
 };
-const Row = ({ children, active = false }: PropsWithChildren<TableRowProps>) => {
-   return <tr className={active ? 'table__row table__row--active' : 'table__row'}>{children}</tr>;
+const Row = ({ children, status }: PropsWithChildren<TableRowProps>) => {
+   return (
+      <tr
+         className={
+            status === 'active'
+               ? 'table__row table__row--active'
+               : status === 'declined'
+               ? 'table__row table__row--declined'
+               : 'table__row'
+         }
+      >
+         {children}
+      </tr>
+   );
 };
 const Body = ({ children }: PropsWithChildren) => {
    return <tbody className='table__body'>{children}</tbody>;

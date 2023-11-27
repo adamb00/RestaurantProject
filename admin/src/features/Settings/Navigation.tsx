@@ -21,8 +21,8 @@ export default function Navigation() {
                </NavLink>
             </li>
             <li className='settings-navigation__link'>
-               <NavLink to={'/'} className='settings-navigation__item'>
-                  Menu Item
+               <NavLink to={'upload-ad'} className='settings-navigation__item'>
+                  Upload Ads
                </NavLink>
             </li>
             <li className='settings-navigation__link'>
