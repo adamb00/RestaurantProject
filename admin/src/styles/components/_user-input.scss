@@ -87,4 +87,10 @@
       margin-top: 0.4rem;
       color: $color-error;
    }
+
+   &__sizes {
+      display: flex;
+      flex-direction: row;
+      gap: 10rem;
+   }
 }

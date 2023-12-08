@@ -35,6 +35,8 @@ export default function ShowOrder() {
    const { doc: user } = currentUser;
    const { doc: order } = currentOrder;
 
+   console.log(order);
+
    // TODO
    const handleDeclineOrder = () => {
       updateOrder({ id: order._id, data: { ...order, status: 'declined' } });

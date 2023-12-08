@@ -25,9 +25,6 @@ export default function EditFoodTableRow({ element, index, openIndex, setOpenInd
 
    const handleOnClick = async (newFoodData: FieldValues) => {
       const id = element._id;
-
-      console.log(element);
-      console.log(newFoodData);
       updateFood({ newFoodData, id });
       toggleMenu();
    };

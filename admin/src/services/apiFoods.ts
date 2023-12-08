@@ -26,8 +26,12 @@ export const updateFood = async (data: FieldValues, id: string) => {
 export const createFood = async (data: FieldValues) => {
    const formData = formatToFormData(data);
 
+   console.log(Object.fromEntries(formData));
+
    const response = await fetch(BASE_URL + 'foods', OPTIONS('POST', formData, 'multipart/form-data'));
    const responseData = await response.json();
+
+   console.log(responseData);
 
    if (!response.ok) throw new Error(responseData.message);
 

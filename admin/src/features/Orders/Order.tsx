@@ -17,7 +17,7 @@ export default function Order() {
       <div className='order'>
          <Table>
             <Table.Header>
-               <Table.Row active={false}>
+               <Table.Row status={orders.res.status}>
                   <th className='table__head'>Index</th>
                   <th className='table__head'>User</th>
                   <th className='table__head'>Created</th>

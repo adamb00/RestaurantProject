@@ -49,25 +49,27 @@ export default function CreateEditFoodForm({
                   name='name'
                   rules={update ? {} : { required: 'Food name is required' }}
                />
-               <UserInput
-                  placeholder='Price of the food'
-                  initialValue={element && element.price}
-                  className={className}
-                  control={control}
-                  formError={error ? true : false}
-                  disabled={isLoading}
-                  name='price'
-                  rules={
-                     update
-                        ? {}
-                        : {
-                             required: 'Food price is required',
-                             validate: {
-                                matchPattern: IS_VALID_NUMBER,
-                             },
-                          }
-                  }
-               />
+               {hasTypeAlready !== 'pizza' && (
+                  <UserInput
+                     placeholder='Price of the food'
+                     initialValue={element && element.price}
+                     className={className}
+                     control={control}
+                     formError={error ? true : false}
+                     disabled={isLoading}
+                     name='price'
+                     rules={
+                        update
+                           ? {}
+                           : {
+                                required: 'Food price is required',
+                                validate: {
+                                   matchPattern: IS_VALID_NUMBER,
+                                },
+                             }
+                     }
+                  />
+               )}
             </div>
             <UserInput
                placeholder='Description of the food'
@@ -174,6 +176,65 @@ export default function CreateEditFoodForm({
                   </div>
                )}
             </div>
+            {hasTypeAlready === 'pizza' && (
+               <div className={`${usage}-food__form--group`}>
+                  <UserInput
+                     placeholder='Price for 28cm'
+                     initialValue={element && element.price[0]}
+                     className={className}
+                     control={control}
+                     formError={error ? true : false}
+                     disabled={isLoading}
+                     name='28cmPrice'
+                     rules={
+                        update
+                           ? {}
+                           : {
+                                validate: {
+                                   matchPattern: IS_VALID_NUMBER,
+                                },
+                             }
+                     }
+                  />
+                  <UserInput
+                     placeholder='Price for 32cm'
+                     className={className}
+                     initialValue={element && element.price[1]}
+                     control={control}
+                     formError={error ? true : false}
+                     disabled={isLoading}
+                     name='32cmPrice'
+                     rules={
+                        update
+                           ? {}
+                           : {
+                                validate: {
+                                   matchPattern: IS_VALID_NUMBER,
+                                },
+                             }
+                     }
+                  />
+                  <UserInput
+                     placeholder='Price for 52cm'
+                     className={className}
+                     initialValue={element && element.price[2]}
+                     control={control}
+                     formError={error ? true : false}
+                     disabled={isLoading}
+                     name='52cmPrice'
+                     rules={
+                        update
+                           ? {}
+                           : {
+                                required: false,
+                                validate: {
+                                   matchPattern: IS_VALID_NUMBER,
+                                },
+                             }
+                     }
+                  />
+               </div>
+            )}
             <div className={`${usage}-food__form--group`}>
                <div className='user-input__checkbox'>
                   <label className={className ? `user-input__label--${className}` : 'user-input__label'}>
@@ -233,6 +294,42 @@ export default function CreateEditFoodForm({
                   />
                </div>
             </div>
+            {/* <div className='user-input__sizes'>
+               <label className='user-input__label'>Available sizes: </label>
+               <div className='user-input__checkbox'>
+                  <label className={className ? `user-input__label--${className}` : 'user-input__label'}>28cm</label>
+                  <UserInput
+                     control={control}
+                     className={className}
+                     formError={error ? true : false}
+                     disabled={isLoading}
+                     name='28cm'
+                     type='checkbox'
+                  />
+               </div>
+               <div className='user-input__checkbox'>
+                  <label className={className ? `user-input__label--${className}` : 'user-input__label'}>32cm</label>
+                  <UserInput
+                     control={control}
+                     className={className}
+                     formError={error ? true : false}
+                     disabled={isLoading}
+                     name='32cm'
+                     type='checkbox'
+                  />
+               </div>
+               <div className='user-input__checkbox'>
+                  <label className={className ? `user-input__label--${className}` : 'user-input__label'}>52cm</label>
+                  <UserInput
+                     control={control}
+                     className={className}
+                     formError={error ? true : false}
+                     disabled={isLoading}
+                     name='52cm'
+                     type='checkbox'
+                  />
+               </div> */}
+            {/* </div> */}
 
             <Button onClick={handleSubmit(handleOnClick)}>{update === true ? 'save' : 'submit'}</Button>
          </form>

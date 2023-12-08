@@ -27,7 +27,12 @@ export const OPTIONS = (method: string, data?: FormData | string | object, heade
 export const IS_VALID_EMAIL = (v: string) =>
    /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'Email address must be a valid address';
 
-export const IS_VALID_NUMBER = (v: string) => /^[0-9]+$/.test(v) || 'Value must be a valid number';
+export const IS_VALID_NUMBER = (v: string) => {
+   if (v === '') {
+      return true;
+   }
+   return /^[0-9]+$/.test(v) || 'Value must be a valid number';
+};
 
 export function formatDate(dateStr: string) {
    return new Intl.DateTimeFormat('hu', {
@@ -90,6 +95,8 @@ export const formatToFormData = (data: FieldValues) => {
 
          if (key === 'image') {
             formData.append('image', value);
+         } else if (key === 'price' && Array.isArray(value) && value.length > 0) {
+            formData.append('price', JSON.stringify(value));
          } else if (value) {
             formData.append(key, value);
          }

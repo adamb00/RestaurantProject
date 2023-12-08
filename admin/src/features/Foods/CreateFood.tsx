@@ -14,7 +14,18 @@ export default function CreateFood() {
    });
 
    const handleOnClick = async (data: FieldValues) => {
-      createFood({ ...data }, { onSuccess: () => reset() });
+      const price = [];
+      if (data['28cmPrice']) price.push({ size: '28cm', price: +data['28cmPrice'] });
+      if (data['32cmPrice']) price.push({ size: '32cm', price: +data['32cmPrice'] });
+      if (data['52cmPrice']) price.push({ size: '52cm', price: +data['52cmPrice'] });
+
+      delete data['28cmPrice'];
+      delete data['32cmPrice'];
+      delete data['52cmPrice'];
+
+      console.log(price);
+
+      createFood({ ...data, price }, { onSuccess: () => reset() });
    };
 
    return <CreateEditFoodForm error={error} handleOnClick={handleOnClick} isLoading={isCreating} />;

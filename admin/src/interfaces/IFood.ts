@@ -6,6 +6,7 @@ export default interface IFood {
    createdAt: Date;
    isAvailable: boolean;
    isVegetarian: boolean;
+   size: string[];
    meatType: string | null;
    needSide: boolean;
    _id: string;

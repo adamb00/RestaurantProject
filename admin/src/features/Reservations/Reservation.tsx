@@ -23,11 +23,11 @@ export default function Reservation() {
       <div className='reservation'>
          <Table>
             <Table.Header>
-               <Table.Row active={false}>
+               <Table.Row status={'active'}>
                   <th className='table__head'>Index</th>
                   <th className='table__head'>Full Name</th>
                   <th className='table__head'>Number of Guests</th>
-                  <th className='table__head'>Need menu?</th>
+                  {/* <th className='table__head'>Need menu?</th> */}
                   <th className='table__head'>Selected Date</th>
                   <th className='table__head'>Open</th>
                </Table.Row>

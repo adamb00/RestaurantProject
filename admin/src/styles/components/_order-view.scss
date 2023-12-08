@@ -116,6 +116,12 @@
          padding-right: 2rem;
          display: flex;
          flex-direction: column;
+
+         &-item {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+         }
       }
    }
    &__extras {
@@ -136,5 +142,9 @@
       align-content: flex-end;
       padding-right: 5rem;
       margin-bottom: 5rem;
+   }
+   &__size {
+      font-style: italic;
+      font-size: 1.4rem;
    }
 }

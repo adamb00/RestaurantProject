@@ -8,13 +8,14 @@ import { IconContext } from 'react-icons';
 
 export default function ReservationTableRow({ element, index, openIndex, setOpenIndex }: TableRowProps) {
    const { isOpen, toggleMenu } = useTableMenuButton({ index, openIndex, setOpenIndex });
+
    return (
       <>
-         <Table.Row active={element.isActive}>
+         <Table.Row status={element.isActive ? 'active' : ''}>
             <td className='table__data'>{index + 1}</td>
             <td className='table__data'>{element.user.fullName}</td>
             <td className='table__data'>{element.numOfGuests}</td>
-            <td className='table__data'>{element.needMenu ? 'Yes' : 'No'}</td>
+            {/* <td className='table__data'>{element.needMenu ? 'Yes' : 'No'}</td> */}
             <td className='table__data'>{formatDate(element.selectedDate.toString())}</td>
             <td className='table__data' onClick={toggleMenu}>
                <IconContext.Provider value={{ className: 'react-icon' }}>

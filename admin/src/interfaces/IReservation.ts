@@ -4,7 +4,7 @@ export default interface IReservation {
    _id: string;
    user: IUser;
    numOfGuests: number;
-   needMenu: boolean;
+   // needMenu: boolean;
    message: string;
    selectedDate: Date;
    isActive: boolean;
