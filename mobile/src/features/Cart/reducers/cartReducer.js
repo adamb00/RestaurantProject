@@ -60,15 +60,18 @@ const cartSlice = createSlice({
       updateCartMessage(state, action) {
          state.message = action.payload;
       },
-      setCoupon(state, action) {
-         state.coupon = action.payload;
-      },
+
       setCartId(state, action) {
          state.cartId = action.payload;
       },
       additem(state, action) {
          const newItem = action.payload;
-         const existingItem = state?.cart?.find(item => item.food._id === newItem._id);
+         const existingItem = state?.cart?.find(item => item.food._id === newItem._id && item.size === newItem.size);
+
+         if (newItem.type === 'pizza') {
+            newItem.price = newItem.size.price;
+            newItem.size = newItem.size.size;
+         }
 
          if (existingItem) {
             existingItem.quantity += 1;
@@ -77,19 +80,48 @@ const cartSlice = createSlice({
             state.cart.push({ food: newItem, quantity: 1 });
          }
       },
+
       deleteItem(state, action) {
-         state.cart = state.cart.filter(item => item.food._id !== action.payload._id);
+         const { _id, size, type } = action.payload;
+
+         if (type === 'pizza') {
+            state.cart = state.cart.filter(item => !(item.food._id === _id && item.food.size === size));
+         } else {
+            state.cart = state.cart.filter(item => item.food._id !== action.payload._id);
+         }
       },
       increase(state, action) {
-         const item = state.cart.find(item => item.food._id === action.payload._id);
-         item.quantity++;
-         item.totalPrice = action.payload.price * item.quantity;
+         const { _id, size, type } = action.payload;
+
+         let item;
+         if (type === 'pizza') {
+            item = state.cart.find(item => item.food._id === _id && item.food.size === size);
+         } else {
+            item = state.cart.find(item => item.food._id === action.payload._id);
+         }
+
+         if (item) {
+            item.quantity++;
+            item.totalPrice = action.payload.price * item.quantity;
+         }
       },
       decrease(state, action) {
-         const item = state.cart.find(item => item.food._id === action.payload._id);
-         item.quantity--;
-         item.totalPrice = action.payload.price * item.quantity;
-         if (item.quantity === 0) cartSlice.caseReducers.deleteItem(state, action);
+         const { _id, size, type } = action.payload;
+
+         let item;
+         if (type === 'pizza') {
+            item = state.cart.find(item => item.food._id === _id && item.food.size === size);
+         } else {
+            item = state.cart.find(item => item.food._id === action.payload._id);
+         }
+
+         if (item) {
+            item.quantity--;
+            item.totalPrice = item.food.price * item.quantity;
+            if (item.quantity === 0) {
+               cartSlice.caseReducers.deleteItem(state, action);
+            }
+         }
       },
       clear(state) {
          state.cart = [];
@@ -118,8 +150,8 @@ export default cartSlice.reducer;
 export const getCart = state => state?.cart?.cart ?? [];
 
 export const getCurrentQuantity = id => state => {
-   const cartArray = Array.isArray(state.cart.cart) ? state.cart.cart : [];
-   const cartItem = cartArray.find(item => item.food._id === id);
+   const cartArray = Array.isArray(state.cart?.cart) ? state.cart.cart : [];
+   const cartItem = cartArray.find(item => item?.food?._id === id);
    return cartItem ? cartItem.quantity : 0;
 };
 
@@ -176,10 +208,19 @@ export const getTotalCartPrice = state => {
    return totalPrice + extrasPrice;
 };
 
-export const getTotalItemPrice = id => state => {
+export const getTotalItemPrice = food => state => {
    let totalPrice = 0;
-   state.cart.cart.find(item => {
-      if (item.food._id === id) totalPrice = item.food.price * item.quantity;
+   let items = [];
+
+   if (food.type === 'pizza') {
+      items = state.cart.cart.filter(item => item.food._id === food._id && item.food.size === food.size);
+   } else {
+      items = state.cart.cart.filter(item => item.food._id === food._id);
+   }
+
+   items.forEach(item => {
+      totalPrice += item.food.price * item.quantity;
    });
+
    return totalPrice;
 };

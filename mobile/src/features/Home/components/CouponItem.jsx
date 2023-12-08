@@ -5,12 +5,12 @@ import { shadowProp, style } from '../../../styles/style';
 import { LinearGradient } from 'expo-linear-gradient';
 import Icon from '../../../components/Icon';
 import { useDispatch } from 'react-redux';
-import { setCoupon } from '../../Cart/reducers/cartReducer';
+import { updateCoupon } from '../../Cart/reducers/cartReducer';
 
 const CouponItem = ({ coupon }) => {
    const dispatch = useDispatch();
    const handleOnPress = () => {
-      dispatch(setCoupon(coupon));
+      dispatch(updateCoupon(coupon));
    };
    return (
       <SafeAreaView>

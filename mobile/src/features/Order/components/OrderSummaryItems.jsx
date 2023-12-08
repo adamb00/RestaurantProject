@@ -10,6 +10,7 @@ const OrderSummaryItems = ({ item }) => {
             <View style={styles.foodNameQuantity}>
                <Text>{item.quantity}x</Text>
                <Text>{item.food.name}</Text>
+               {item.food.size && <Text style={styles.size}>({item.food.size})</Text>}
             </View>
             <Text>{formatCurrency(item.food.price * item.quantity)}</Text>
          </View>
@@ -29,6 +30,9 @@ const styles = StyleSheet.create({
    foodNameQuantity: {
       flexDirection: 'row',
       gap: 5,
+   },
+   size: {
+      fontStyle: 'italic',
    },
 });
 export default OrderSummaryItems;

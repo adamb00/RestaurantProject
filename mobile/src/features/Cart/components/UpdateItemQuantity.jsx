@@ -13,32 +13,54 @@ const UpdateItemQuantity = ({ food, currentQuantity }) => {
    const { updateCart } = useUpdateCart();
    const { deleteCart } = useDeleteCart();
 
-   async function handleDecrease() {
-      const existingItem = cart.find(item => item.food._id === food._id);
-
-      if (existingItem && existingItem.quantity > 1) {
-         dispatch(decrease(existingItem.food));
-         await updateCartOnServer([...cart], existingItem.food._id, currentQuantity - 1, cartId);
-      } else if (existingItem && existingItem.quantity === 1) {
-         dispatch(deleteItem(existingItem.food));
-         await updateCartOnServer([...cart], existingItem.food._id, 0, cartId);
-      }
-   }
-
    async function handleIncrease() {
-      const existingItem = cart.find(item => item.food._id === food._id);
+      const existingItem = cart.find(
+         item => item.food._id === food._id && (food.type === 'pizza' ? item.food.size === food.size : true)
+      );
 
       if (existingItem) {
-         const newQuantity = currentQuantity + 1;
-         dispatch(increase(existingItem.food));
-         await updateCartOnServer([...cart], existingItem.food._id, newQuantity, cartId);
+         if (food.type === 'pizza') {
+            const newQuantity = existingItem.quantity + 1;
+            dispatch(increase(existingItem.food));
+            await updateCartOnServer([...cart], existingItem.food._id, existingItem.food.size, newQuantity, cartId);
+         } else {
+            const newQuantity = existingItem.quantity + 1;
+            dispatch(increase(existingItem.food));
+            await updateCartOnServer([...cart], existingItem.food._id, null, newQuantity, cartId);
+         }
       }
    }
 
-   const updateCartOnServer = async (currentCart, food, newQuantity) => {
+   async function handleDecrease() {
+      const existingItem = cart.find(
+         item => item.food._id === food._id && (food.type === 'pizza' ? item.food.size === food.size : true)
+      );
+
+      if (existingItem && existingItem.quantity > 1) {
+         if (food.type === 'pizza') {
+            const newQuantity = existingItem.quantity - 1;
+            dispatch(decrease(existingItem.food));
+            await updateCartOnServer([...cart], existingItem.food._id, existingItem.food.size, newQuantity, cartId);
+         } else {
+            const newQuantity = existingItem.quantity - 1;
+            dispatch(decrease(existingItem.food));
+            await updateCartOnServer([...cart], existingItem.food._id, null, newQuantity, cartId);
+         }
+      } else if (existingItem && existingItem.quantity === 1) {
+         if (food.type === 'pizza') {
+            dispatch(deleteItem(existingItem.food));
+            await updateCartOnServer([...cart], existingItem.food._id, existingItem.food.size, 0, cartId);
+         } else {
+            dispatch(deleteItem(existingItem.food));
+            await updateCartOnServer([...cart], existingItem.food._id, null, 0, cartId);
+         }
+      }
+   }
+
+   const updateCartOnServer = async (currentCart, foodId, size, newQuantity) => {
       try {
          const updatedCart = currentCart.map(item => {
-            if (item.food._id === food) {
+            if (item.food._id === foodId && item.food.size === size) {
                const updatedItem = { ...item, quantity: newQuantity };
                return updatedItem;
             }
@@ -83,9 +105,12 @@ const styles = StyleSheet.create({
 });
 
 UpdateItemQuantity.propTypes = {
-   food: PropTypes.object,
-   currentQuantity: PropTypes.number,
-   message: PropTypes.string,
+   food: PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      type: PropTypes.string,
+      size: PropTypes.string,
+   }),
+   currentQuantity: PropTypes.number.isRequired,
 };
 
 export default UpdateItemQuantity;

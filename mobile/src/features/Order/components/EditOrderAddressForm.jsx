@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
       marginBottom: 20,
    },
    street: {
-      fontWeight: 'bold',
+      fontWeight: '700',
       fontSize: 16,
    },
    name: {

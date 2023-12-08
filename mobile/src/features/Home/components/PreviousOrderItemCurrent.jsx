@@ -20,11 +20,27 @@ const PreviousOrderItemCurrent = () => {
    const cart = useSelector(getCart);
 
    const handleAddToCart = () => {
-      if (cart.length === 0) {
-         dispatch(setCart(items));
-      } else {
-         const mergedCart = [...cart, ...items];
-         dispatch(setCart(mergedCart));
+      if (cart.length === 0) dispatch(setCart([...items]));
+      else {
+         let updatedCart = [...cart];
+
+         items.forEach(item => {
+            const matchingCartItem = updatedCart.find(cartItem => {
+               if (cartItem.food.type === 'pizza') {
+                  return cartItem.food._id === item.food._id && cartItem.food.size === item.food.size;
+               } else {
+                  return cartItem.food._id === item.food._id;
+               }
+            });
+
+            if (matchingCartItem) {
+               matchingCartItem.quantity += item.quantity;
+            } else {
+               updatedCart.push({ ...item });
+            }
+         });
+
+         dispatch(setCart(updatedCart));
       }
 
       Toast.show({
@@ -47,9 +63,9 @@ const PreviousOrderItemCurrent = () => {
                { marginHorizontal: screenWidht < 800 ? 10 : 40, gap: screenWidht < 800 ? 20 : 30 },
             ]}
          >
-            {items.map(item => (
+            {items.map((item, index) => (
                <View
-                  key={item.food._id}
+                  key={item.food._id + index}
                   style={[styles.cartContainer, { marginHorizontal: screenWidht < 800 ? 10 : 40 }]}
                >
                   <View style={styles.foodContainer}>
@@ -69,6 +85,14 @@ const PreviousOrderItemCurrent = () => {
                            ]}
                         >
                            {item.food.name}
+                        </Text>
+                        <Text
+                           style={[
+                              styles.foodSize,
+                              { fontSize: screenWidht < 800 ? 12 : 16, letterSpacing: screenWidht < 800 ? 1 : 1 },
+                           ]}
+                        >
+                           {item.food.type === 'pizza' && `(${item.food.size})`}
                         </Text>
                      </View>
                      <Text
@@ -185,6 +209,7 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       marginBottom: 10,
       gap: 3,
+      alignItems: 'center',
    },
    extraContainer: {
       flexDirection: 'row',
@@ -199,6 +224,11 @@ const styles = StyleSheet.create({
    },
    foodName: {
       color: style['color-primary'],
+   },
+   foodSize: {
+      color: style['color-secondary-shade'],
+      fontStyle: 'italic',
+      alignSelf: 'center',
    },
    extraName: {
       color: style['color-primary-shade'],

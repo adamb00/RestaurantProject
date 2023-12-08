@@ -25,7 +25,7 @@ export const header_primary = {
    textTransform: 'uppercase',
    marginVertical: 25,
    fontSize: 32,
-   fontWeight: 'bold',
+   fontWeight: '700',
    color: style['color-secondary-tint'],
 };
 

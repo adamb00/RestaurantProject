@@ -11,16 +11,17 @@ import { header_primary, header_secondary } from '../../../styles/style';
 import DatePicker from './DatePicker';
 import { useAuth } from '../../../contexts/AuthContext';
 import { useSendReservation } from '../hooks/useReservation';
-import Dropdown from './Dropdown';
+// import Dropdown from './Dropdown';
 
 const ReservationForm = () => {
    const { onDateChange, selectedDate } = useDateForm();
    const { sendReservation, isSending } = useSendReservation();
 
    const [showPicker, setShowPicker] = useState(false);
-   const { control, handleSubmit, watch } = useForm();
+   // const { control, handleSubmit, watch} = useForm();
+   const { control, handleSubmit } = useForm();
 
-   const guests = watch('numOfGuests');
+   // const guests = watch('numOfGuests');
 
    const { user } = useAuth();
 
@@ -28,8 +29,8 @@ const ReservationForm = () => {
       const localSelectedDate = selectedDate;
       const utcSelectedDate = new Date(localSelectedDate);
 
-      data.selectedDate = utcSelectedDate.setMinutes(localSelectedDate.getMinutes() + 120);
-      data.needMenu = guests > 9 ? true : data.needMenu.key;
+      data.selectedDate = utcSelectedDate.setMinutes(localSelectedDate.getMinutes());
+      // data.needMenu = guests > 9 ? true : data.needMenu.key;
       data.user = user._id;
 
       sendReservation(data);
@@ -53,7 +54,7 @@ const ReservationForm = () => {
                   keyboardType='numeric'
                   rules={{ required: 'Please provide us the number of guests' }}
                />
-               <Dropdown guests={+guests} control={control} />
+               {/* <Dropdown guests={+guests} control={control} /> */}
                <UserInput
                   control={control}
                   placeholder='You can type here any message'

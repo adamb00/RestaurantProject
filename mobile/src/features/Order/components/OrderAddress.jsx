@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
       gap: 20,
    },
    street: {
-      fontWeight: 'bold',
+      fontWeight: '700',
       fontSize: 16,
    },
    floorDoor: {

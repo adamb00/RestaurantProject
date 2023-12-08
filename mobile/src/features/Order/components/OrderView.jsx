@@ -22,18 +22,23 @@ const OrderView = ({ types, scrollTo, foods }) => {
    const cart = useSelector(getCart);
    useGetCurrentUserCart();
 
-   const handleAddToCart = async food => {
-      const existingItem = cart.find(item => item.food._id === food._id) ?? null;
+   const handleAddToCart = async (food, selectedSize = null) => {
+      const existingItem =
+         selectedSize && selectedSize.size
+            ? cart.find(item => item.food._id === food._id && item.size === selectedSize.size)
+            : null;
 
       if (!existingItem) {
-         dispatch(additem(food));
+         dispatch(additem({ ...food, size: selectedSize, quantity: 1 }));
       } else {
          dispatch(increase(existingItem.food));
       }
 
       if (!cartId) {
+         const newFood = { ...food, price: selectedSize.price, size: selectedSize.size };
+
          createCart(
-            { items: [{ food, quantity: 1 }] },
+            { items: [{ food: food.type === 'pizza' ? newFood : food, quantity: 1 }] },
             {
                onSuccess: data => {
                   if (data) {
@@ -45,12 +50,14 @@ const OrderView = ({ types, scrollTo, foods }) => {
       } else {
          let updatedCart = [...cart];
 
-         const existingCartItemIndex = updatedCart.findIndex(item => item.food._id === food._id);
+         const existingCartItemIndex = updatedCart.findIndex(
+            item => item.food._id === food._id && item.size === selectedSize
+         );
 
          if (existingCartItemIndex !== -1) {
             updatedCart[existingCartItemIndex].quantity++;
          } else {
-            updatedCart.push({ food, quantity: 1 });
+            updatedCart.push({ food: { ...food }, quantity: 1 });
          }
 
          updateCart({ cartId, items: updatedCart });
@@ -67,10 +74,10 @@ const OrderView = ({ types, scrollTo, foods }) => {
                {foods.doc
                   .filter(food => food.type === type)
                   .map(
-                     food =>
+                     (food, index) =>
                         food.isAvailable &&
                         food.type !== 'topping' && (
-                           <FoodItem food={food} key={food._id} handleAddToCart={handleAddToCart} />
+                           <FoodItem food={food} key={food._id + index} handleAddToCart={handleAddToCart} />
                         )
                   )}
             </View>

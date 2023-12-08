@@ -4,7 +4,7 @@
       "slug": "client",
       "version": "1.0.0",
       "orientation": "portrait",
-      "icon": "./assets/icon.png",
+      "icon": "./assets/bandula_png.png",
       "userInterfaceStyle": "light",
       "plugins": [
          [
@@ -15,7 +15,7 @@
          ]
       ],
       "splash": {
-         "image": "./assets/splash.png",
+         "image": "./assets/bandula_png.png",
          "resizeMode": "contain",
          "backgroundColor": "#ffffff"
       },
@@ -39,7 +39,7 @@
       },
       "android": {
          "adaptiveIcon": {
-            "foregroundImage": "./assets/adaptive-icon.png",
+            "foregroundImage": "./assets/bandula_png.png",
             "backgroundColor": "#ffffff"
          },
          "permissions": [
@@ -51,7 +51,7 @@
          "package": "com.anonymous.client"
       },
       "web": {
-         "favicon": "./assets/favicon.png"
+         "favicon": "./assets/bandula_png.png"
       }
    }
 }

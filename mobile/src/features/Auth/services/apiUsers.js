@@ -1,3 +1,4 @@
+import Toast from 'react-native-toast-message';
 import { BASE_URL, OPTIONS } from '../../../helpers/config';
 
 export const createUser = async newUser => {
@@ -22,10 +23,26 @@ export const logoutUser = async () => {
 };
 
 export const updateUser = async user => {
-   const response = await fetch(BASE_URL + `users/${user._id}`, OPTIONS('PATCH', user));
-   const responseData = await response.json();
+   if (user.password) {
+      const response = await fetch(BASE_URL + `users/${user._id}/updatePassword`, OPTIONS('PATCH', user));
 
-   return responseData;
+      const responseData = await response.json();
+
+      if (!response.ok) {
+         Toast.show({ type: 'error', text1: responseData.message });
+      } else Toast.show({ type: 'success', text1: 'Successfully updated' });
+
+      return responseData;
+   } else {
+      const response = await fetch(BASE_URL + `users/${user._id}`, OPTIONS('PATCH', user));
+      const responseData = await response.json();
+
+      if (!response.ok) {
+         Toast.show({ type: 'error', text1: responseData.message });
+      } else Toast.show({ type: 'success', text1: 'Successfully updated' });
+
+      return responseData;
+   }
 };
 
 export const getCurrentUser = async id => {

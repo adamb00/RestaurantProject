@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
    input: {
       flex: 1,
       fontSize: 20,
-      fontWeight: 500,
+      fontWeight: '500',
       paddingVertical: 15,
       paddingHorizontal: 8,
       minHeight: 60,

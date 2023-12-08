@@ -1,3 +1,4 @@
+import '@formatjs/intl-numberformat/locale-data/hu';
 // export const BASE_URL = 'http://localhost:8000/api/v1/';
 export const BASE_URL = 'http://192.168.0.33:8000/api/v1/';
 

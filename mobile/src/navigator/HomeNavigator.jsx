@@ -18,6 +18,7 @@ import EditOrderAddress from '../features/Order/components/EditOrderAddress';
 import Coupons from '../features/Home/components/Coupons';
 import PreviousOrders from '../features/Home/screens/PreviousOrders';
 import PreviousOrderItemCurrent from '../features/Home/components/PreviousOrderItemCurrent';
+import Settings from '../features/Home/screens/Settings';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -30,6 +31,7 @@ const HomeStack = () => {
          <Stack.Screen name='PreviousOrders' component={PreviousOrders} />
          <Stack.Screen name='PreviousOrderItemCurrent' component={PreviousOrderItemCurrent} />
          <Stack.Screen name='FoodInfo' component={FoodInfo} />
+         <Stack.Screen name='Settings' component={Settings} />
       </Stack.Navigator>
    );
 };

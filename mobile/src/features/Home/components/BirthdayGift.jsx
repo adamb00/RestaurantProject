@@ -37,7 +37,6 @@ const BirthdayGift = ({ setUserAlreadyGetBirthdayCoupon }) => {
          <Text style={styles.wrapperText}>Happy Birthday {user.fullName.split(' ')[1]} 🥳🥳</Text>
          <Text style={styles.wrapperText}>We would like to surprise You today! 🤩</Text>
          <View>
-            {/* NEED TO HANDLE ADDING COUPON */}
             <Button handleSubmit={handleOnClick}>Click me!</Button>
          </View>
       </SafeAreaView>

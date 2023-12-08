@@ -52,7 +52,7 @@ const FoodReviews = ({ reviews, id }) => {
 const styles = StyleSheet.create({
    noReviewText: {
       textAlign: 'center',
-      fontWeight: 500,
+      fontWeight: '500',
       fontSize: 18,
       marginBottom: 20,
    },

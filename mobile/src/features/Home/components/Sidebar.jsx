@@ -27,7 +27,7 @@ const Sidebar = ({ sidebarPosition, closeSidebar }) => {
             singoutUser();
             break;
          case 'settings':
-            console.log(item);
+            navigation.navigate('Settings');
             break;
          case 'coupons':
             navigation.navigate('Coupons');

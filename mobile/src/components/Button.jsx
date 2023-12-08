@@ -59,7 +59,7 @@ Button.propTypes = {
    children: PropTypes.node,
    onLoading: PropTypes.bool,
    handleSubmit: PropTypes.func,
-   uniqueStyle: PropTypes.object,
+   uniqueStyle: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
    colors: PropTypes.array,
    disabled: PropTypes.bool,
 };

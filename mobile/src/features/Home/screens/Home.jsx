@@ -16,13 +16,15 @@ import Ad from '../components/Ad';
 import Spinner from '../../../components/Spinner';
 import { useGetAllAds } from '../hooks/useAds';
 import { useGetTopFavoriteFoods } from '../../Foods/hooks/useFood';
+import Restaurants from '../components/Restaurants';
 
 export const Home = () => {
    useGetCurrentLocation();
    const { user } = useAuth();
 
-   const today = new Date(Date.now());
+   const today = new Date();
    const userBday = new Date(user.birthday);
+
    const { handleOnPress, sidebarIsOpen, sidebarPosition, setSidebarIsOpen } = useSidebar();
 
    const closeSidebar = () => {
@@ -52,11 +54,12 @@ export const Home = () => {
             {!user.birthday && <BirthdayBox sidebarIsOpen={sidebarIsOpen} />}
             {!userAlreadyGetBirthdayCoupon &&
                userBday.getMonth() === today.getMonth() &&
-               userBday.getDay() === today.getDay() && (
+               userBday.getDate() === today.getDate() && (
                   <BirthdayGift setUserAlreadyGetBirthdayCoupon={setUserAlreadyGetBirthdayCoupon} />
                )}
             <TopFavoriteFoods />
             {ads.doc && <Ad />}
+            <Restaurants />
          </ScrollView>
       </View>
    );

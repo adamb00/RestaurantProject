@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { useGetOneFood } from '../../Foods/hooks/useFood';
 import UpdateItemQuantity from './UpdateItemQuantity';
 import { useSelector } from 'react-redux';
-import { getCartId, getTotalItemPrice } from '../reducers/cartReducer';
+import { getTotalItemPrice } from '../reducers/cartReducer';
 import { formatCurrency, truncateText } from '../../../helpers/config';
 import { style } from '../../../styles/style';
 import { useNavigation } from '@react-navigation/native';
@@ -15,25 +15,35 @@ import Spinner from '../../../components/Spinner';
 const CartItem = ({ food }) => {
    const screenWidht = Dimensions.get('window').width;
    const navigation = useNavigation();
-   const cartId = useSelector(getCartId);
-   const price = useSelector(getTotalItemPrice(food.food._id));
+
+   const isPizza = food.food.type === 'pizza';
+   const price = useSelector(getTotalItemPrice(food.food));
    const { isLoading, currentFood } = useGetOneFood(food.food._id);
 
    if (isLoading || !currentFood) return <Spinner />;
 
-   const { doc: currentFoodData } = currentFood;
+   const currentFoodData = isPizza
+      ? { ...currentFood.doc, price: food.food.price, size: food.food.size }
+      : { ...currentFood.doc };
 
    return (
       <View style={styles.mainContainer}>
          <View style={styles.container}>
-            <TouchableOpacity style={styles.nameContainer} onPress={() => navigation.navigate('FoodInfo', food.food)}>
-               <Text style={styles.name}>{currentFoodData.name}</Text>
+            <TouchableOpacity
+               style={styles.nameContainer}
+               onPress={() => navigation.navigate('FoodInfo', currentFood.doc)}
+            >
+               <View style={styles.nameHeader}>
+                  <Text style={styles.name}>{currentFoodData.name}</Text>
+                  {isPizza && food.food.size && <Text style={styles.size}>({food.food.size})</Text>}
+               </View>
                <Text style={styles.description}>
                   ({truncateText(currentFoodData.description, screenWidht < 550 ? 40 : 65)})
                </Text>
             </TouchableOpacity>
+
             <View style={styles.quantityContainer}>
-               <UpdateItemQuantity food={currentFoodData} currentQuantity={food.quantity} cartId={cartId} />
+               <UpdateItemQuantity food={currentFoodData} currentQuantity={food.quantity} />
                <Text style={styles.price}>{formatCurrency(price)}</Text>
             </View>
          </View>
@@ -66,6 +76,11 @@ const styles = StyleSheet.create({
       flex: 1,
       gap: 5,
    },
+   nameHeader: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 10,
+   },
    quantityContainer: {
       flex: 1,
       flexDirection: 'row',
@@ -79,7 +94,12 @@ const styles = StyleSheet.create({
    },
    name: {
       fontSize: 18,
-      fontWeight: 500,
+      fontWeight: '500',
+   },
+   size: {
+      fontSize: 16,
+      fontWeight: '400',
+      fontStyle: 'italic',
    },
    description: {
       fontStyle: 'italic',

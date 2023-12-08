@@ -29,8 +29,8 @@ export const Cart = () => {
    return (
       <SafeAreaView style={styles.container}>
          <ScrollView style={styles.cartItems}>
-            {cart.map(item => (
-               <CartItem food={item} key={item.food._id} />
+            {cart.map((item, index) => (
+               <CartItem food={item} key={item.food._id + index} />
             ))}
          </ScrollView>
          <CartFooter />

@@ -42,7 +42,9 @@ const FoodInfo = () => {
                <View style={styles.container}>
                   <View style={styles.container_title}>
                      <Text style={styles.foodName}>{food.name}</Text>
-                     <Text style={styles.foodPrice}>{formatCurrency(food.price)}</Text>
+                     <Text style={styles.foodPrice}>
+                        From {formatCurrency(food.type === 'pizza' ? food.price[0].price : food.price)}
+                     </Text>
                   </View>
                   <StarRating
                      rating={currentFoodData.ratingsAverage}
@@ -59,7 +61,7 @@ const FoodInfo = () => {
                {food.type === 'pizza' && (
                   <View style={styles.container}>
                      <Text style={styles.headerElem}>Available sizes:</Text>
-                     <Text style={styles.description}>28 cm, 32 cm, 52 cm</Text>
+                     <Text style={styles.description}>{food.price.map(item => item.size).join(', ')}</Text>
                   </View>
                )}
                <View style={styles.container}>
@@ -71,7 +73,13 @@ const FoodInfo = () => {
                         <Text style={header_info}>Lactose free?</Text>
                         <Text style={[styles.description, descText]}>{lactoseFree(food)}</Text>
                      </View>
-                     <Image source={image} style={[styles.image, { width: screenWidht < 800 ? '100%' : 200 }]} />
+                     <Image
+                        source={image}
+                        style={[
+                           styles.image,
+                           { width: screenWidht < 800 ? '100%' : 250, height: screenWidht < 800 ? 300 : 250 },
+                        ]}
+                     />
                   </View>
                </View>
                <View style={styles.container}>
@@ -126,10 +134,9 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',
-      gap: 20,
+      gap: 10,
    },
    image: {
-      height: 200,
       borderRadius: style['default-border-radius'],
       marginHorizontal: 10,
    },

@@ -27,8 +27,8 @@ const OrderSummary = ({ discount, totalPrice }) => {
                <Text style={header_tertiary}>Summary</Text>
             </View>
             <View style={styles.food}>
-               {cart.map(item => (
-                  <OrderSummaryItems item={item} key={item.food._id} />
+               {cart.map((item, index) => (
+                  <OrderSummaryItems item={item} key={item.food._id + index} />
                ))}
             </View>
             <View style={styles.dataContainer}>

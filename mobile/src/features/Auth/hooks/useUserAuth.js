@@ -83,38 +83,25 @@ export const useLogoutUser = () => {
    return { singoutUser, isSigningOut };
 };
 
-// export const useUpdateUser = () => {
-//    const queryClient = useQueryClient();
-//    const {
-//       mutate: updateUser,
-//       isLoading: isUpdating,
-//       error,
-//    } = useMutation({
-//       mutationFn: mutationData => updateUserFn(mutationData),
-//       onSuccess: () => {
-//          queryClient.invalidateQueries({ queryKey: ['user'] });
-//       },
-//    });
-
-//    return { updateUser, isUpdating, error };
-// };
-
 export const useUpdateUser = () => {
    const queryClient = useQueryClient();
    const { updateUser: updateContext } = useAuth();
    const {
       mutate: updateUser,
       isLoading: isUpdating,
-      error,
+      error: mutationError,
    } = useMutation({
       mutationFn: mutationData => {
-         updateUserFn(mutationData);
-         updateContext(mutationData);
+         if (mutationData.password) updateUserFn(mutationData);
+         else {
+            updateUserFn(mutationData);
+            updateContext(mutationData);
+         }
       },
       onSuccess: () => {
          queryClient.invalidateQueries({ queryKey: ['user'] });
       },
    });
 
-   return { updateUser, isUpdating, error };
+   return { updateUser, isUpdating, mutationError };
 };

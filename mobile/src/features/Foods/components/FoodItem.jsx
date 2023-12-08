@@ -7,9 +7,10 @@ import { formatCurrency, truncateText } from '../../../helpers/config';
 import Icon from '../../../components/Icon';
 
 import { useNavigation } from '@react-navigation/native';
-import { getCurrentQuantity } from '../../Cart/reducers/cartReducer';
+import { getCart, getCurrentQuantity } from '../../Cart/reducers/cartReducer';
 import UpdateItemQuantity from '../../Cart/components/UpdateItemQuantity';
 import { useSelector } from 'react-redux';
+import AddPizzaItem from './AddPizzaItem';
 
 const FoodItem = ({ food, handleAddToCart }) => {
    const screenWidht = Dimensions.get('window').width;
@@ -21,6 +22,10 @@ const FoodItem = ({ food, handleAddToCart }) => {
    const currentQuantity = useSelector(getCurrentQuantity(food._id));
 
    const isInCart = currentQuantity > 0;
+
+   const cart = useSelector(getCart);
+
+   const isPizza = food.type === 'pizza';
 
    return (
       <View style={styles.container}>
@@ -38,14 +43,56 @@ const FoodItem = ({ food, handleAddToCart }) => {
                </TouchableOpacity>
             </View>
 
-            <Text style={[styles.foodText, styles.price]}>From {formatCurrency(food.price)}</Text>
+            <Text style={[styles.foodText, styles.price]}>
+               From {formatCurrency(food.type === 'pizza' ? +food.price[0].price : +food.price)}
+            </Text>
          </View>
 
-         {isInCart && <UpdateItemQuantity id={food._id} currentQuantity={currentQuantity} food={food} />}
-         {!isInCart && (
-            <TouchableOpacity onPress={() => handleAddToCart(food)}>
-               <Icon name='add-circle-outline' form={false} />
-            </TouchableOpacity>
+         <View style={styles.sizeContainer}>
+            {isPizza &&
+               food.price.map((size, index) => {
+                  const cartItem = cart.find(
+                     cartItem => cartItem.food._id === food._id && cartItem.food.size === size.size
+                  );
+
+                  return (
+                     <View key={`${food._id}_${size.size}_${index}`} style={styles.sizeItem}>
+                        {cartItem ? (
+                           <UpdateItemQuantity
+                              id={food._id}
+                              currentQuantity={cartItem.quantity}
+                              food={{
+                                 ...food,
+                                 price: cartItem.food.price,
+                                 size: cartItem.food.size,
+                              }}
+                           />
+                        ) : (
+                           <>
+                              <AddPizzaItem
+                                 size={size.size}
+                                 key={food._id + index}
+                                 food={food}
+                                 handleAddToCart={() => handleAddToCart(food, size)}
+                                 isInCart={isInCart}
+                                 currentQuantity={currentQuantity}
+                              />
+                           </>
+                        )}
+                     </View>
+                  );
+               })}
+         </View>
+
+         {!isPizza && isInCart && <UpdateItemQuantity id={food._id} currentQuantity={currentQuantity} food={food} />}
+         {!isPizza && !isInCart && (
+            <View>
+               <TouchableOpacity onPress={() => handleAddToCart(food)}>
+                  <View>
+                     <Icon name='add-circle-outline' form={false} />
+                  </View>
+               </TouchableOpacity>
+            </View>
          )}
       </View>
    );
@@ -72,6 +119,10 @@ const styles = StyleSheet.create({
       width: '95%',
       alignItems: 'top',
       alignSelf: 'center',
+   },
+   sizeContainer: {
+      flex: 1,
+      alignItems: 'flex-end',
    },
    foodText: {
       fontSize: 16,

@@ -5,7 +5,16 @@ import { View, TextInput, Text, StyleSheet } from 'react-native';
 import { style } from '../styles/style';
 import { Controller } from 'react-hook-form';
 
-const FloatingLabelInput = ({ control, rules = {}, name, label, initialValue, onChangeText }) => {
+const FloatingLabelInput = ({
+   control,
+   rules = {},
+   name,
+   label,
+   initialValue,
+   onChangeText,
+   secureTextEntry = false,
+   placeholder,
+}) => {
    const [isFocused, setIsFocused] = useState(false);
 
    const handleFocus = () => {
@@ -39,6 +48,8 @@ const FloatingLabelInput = ({ control, rules = {}, name, label, initialValue, on
                            onFocus={handleFocus}
                            onBlur={handleBlur}
                            style={styles.input}
+                           secureTextEntry={secureTextEntry}
+                           placeholder={placeholder}
                         />
                         <Text style={[styles.label, isFocused || value ? styles.labelFocused : null]}>{label}</Text>
                      </View>
@@ -73,11 +84,16 @@ const styles = StyleSheet.create({
       top: -8,
       left: 10,
       color: style['color-primary-shade'],
-      backgroundColor: style['color-white'],
+      backgroundColor: style['color-light-grey'],
       paddingHorizontal: 5,
    },
    labelFocused: {
       color: style['color-primary-tint'],
+   },
+
+   errorText: {
+      color: style['color-error'],
+      alignSelf: 'stretch',
    },
 });
 
@@ -88,6 +104,8 @@ FloatingLabelInput.propTypes = {
    name: PropTypes.string.isRequired,
    control: PropTypes.object,
    rules: PropTypes.object,
+   secureTextEntry: PropTypes.bool,
+   placeholder: PropTypes.string,
 };
 
 export default FloatingLabelInput;
