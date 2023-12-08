@@ -11,6 +11,7 @@ const cartSchema: Schema = new Schema<ICart>({
          food: { type: Object, ref: 'Food' },
          quantity: { type: Number, required: true },
          message: { type: String },
+         size: String,
          extras: {
             type: Object,
             ref: 'Food',
