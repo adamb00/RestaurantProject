@@ -2,7 +2,7 @@ import { Schema, Document } from 'mongoose';
 
 export default interface IFood extends Document {
    name: string;
-   price?: object[] | number;
+   price: number;
    ratingsAverage: number;
    ratingsQuantity: number;
    description: string;

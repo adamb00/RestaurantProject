@@ -63,7 +63,6 @@ userSchema.pre<UserType>('save', async function (this: UserType, next: (err?: Ca
    if (!this.isModified('password')) return next();
 
    this.password = await bcrypt.hash(this.password, 12);
-   this.passwordChangedAt = Date.now() - 1000;
 
    this.passwordAgain = undefined;
    next();

@@ -1,4 +1,4 @@
-import { Model, Schema, SchemaTypes, model } from 'mongoose';
+import { Model, Schema, model } from 'mongoose';
 import IFood from '../interfaces/IFood';
 import slugify from 'slugify';
 
@@ -10,7 +10,7 @@ const foodSchema: Schema = new Schema<IFood>({
       trim: true,
    },
    price: {
-      type: SchemaTypes.Mixed,
+      type: Number,
       required: [true, 'A food must have a price.'],
    },
    ratingsAverage: {

@@ -13,7 +13,6 @@ export interface ICartItem extends Document {
    quantity: number;
    extras: IExtras[];
    message: string;
-   size: string;
 }
 
 export interface ICart extends Document {

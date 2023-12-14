@@ -82,32 +82,4 @@ export default class AuthController {
       });
       res.status(200).json({ status: 'success' });
    };
-
-   public updatePassword = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-      const { password, passwordAgain, currentPassword, _id: id } = req.body;
-
-      const user: UserType | null = await User.findById(id).select('+password');
-
-      if (!(await correctPassword(currentPassword, user.password))) {
-         res.status(401).json({
-            status: 'error',
-            message: 'Incorrect password',
-         });
-         return next(new AppError('Incorrect password.', 401));
-      }
-
-      if (password !== passwordAgain) {
-         res.status(401).json({
-            status: 'error',
-            message: 'Passwords are not the same',
-         });
-         return next(new AppError('Passwords are not the same', 401));
-      }
-
-      user.password = password;
-      user.passwordAgain = passwordAgain;
-      await user.save();
-
-      createAndSendToken(user, 200, req, res);
-   });
 }

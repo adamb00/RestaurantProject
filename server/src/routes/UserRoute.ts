@@ -11,6 +11,5 @@ router.post('/signin', authController.signin);
 router.post('/signout', authController.signout);
 
 router.route('/:id').patch(userController.updateOneUser).get(userController.getOneUser);
-router.route('/:id/updatePassword').patch(authController.updatePassword);
 
 export default router;
