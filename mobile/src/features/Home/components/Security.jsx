@@ -5,7 +5,8 @@ import FloatingLabelInput from '../../../components/FloatingLabelInput';
 import { header_primary } from '../../../styles/style';
 import Button from '../../../components/Button';
 
-const Security = ({ control, handleSave, handleSubmit }) => {
+const Security = ({ control, handleSave, handleSubmit, userType }) => {
+   if (userType === 'facebook') return <Text style={header_primary}>This page is not for facebook users!</Text>;
    return (
       <SafeAreaView style={styles.container}>
          <Text style={header_primary}>Edit your personal data</Text>
@@ -49,6 +50,7 @@ Security.propTypes = {
    control: PropTypes.object,
    handleSave: PropTypes.func,
    handleSubmit: PropTypes.func,
+   userType: PropTypes.string,
 };
 const styles = StyleSheet.create({
    container: {

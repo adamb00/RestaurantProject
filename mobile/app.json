@@ -50,6 +50,7 @@
          ],
          "package": "com.anonymous.client"
       },
+      "scheme": ["fb", "fb872900251289635"],
       "web": {
          "favicon": "./assets/bandula_png.png"
       }

@@ -2,7 +2,4 @@
   <string name="app_name">client</string>
   <string name="expo_splash_screen_resize_mode" translatable="false">contain</string>
   <string name="expo_splash_screen_status_bar_translucent" translatable="false">false</string>
-  <string name="facebook_app_id">215573231556424</string>
-  <string name="facebook_client_token">d201e7b68c3ebe50ca32c443f18183ae</string>
-  <string name="fb_login_protocol_scheme">fb48127127xxxxxxxx</string>
 </resources>

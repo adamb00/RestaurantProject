@@ -24,6 +24,7 @@ export const useFacebookLogin = () => {
                );
                const userInfo = await userInfoResponse.json();
 
+               console.log(reverseGeocodeResult);
                const mapFacebookUserToIUser = facebookUser => {
                   const user = {
                      fullName: facebookUser.name,
@@ -40,6 +41,8 @@ export const useFacebookLogin = () => {
                   };
                   return user;
                };
+
+               console.log(userInfo);
 
                const user = mapFacebookUserToIUser(userInfo);
 

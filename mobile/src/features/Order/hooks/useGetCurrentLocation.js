@@ -3,8 +3,8 @@ import * as Location from 'expo-location';
 import { useLocation } from '../../../contexts/LocationContext';
 
 export const useGetCurrentLocation = () => {
-   const { setLocation, setErrorMsg, setLoading, reverseGeocode } = useLocation();
-   const { userLocation, errorMsg } = useLocation();
+   const { setLocation, setErrorMsg, setLoading, reverseGeocode, userLocation, errorMsg, reverseGeocodeResult } =
+      useLocation();
 
    useEffect(() => {
       const getPermission = async () => {
@@ -30,5 +30,5 @@ export const useGetCurrentLocation = () => {
       getPermission();
    }, []);
 
-   return { userLocation, errorMsg, reverseGeocode };
+   return { userLocation, errorMsg, reverseGeocode, reverseGeocodeResult };
 };

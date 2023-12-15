@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Dimensions, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, TouchableOpacity, ImageBackground } from 'react-native';
 import { style } from '../../../styles/style';
-import { LinearGradient } from 'expo-linear-gradient';
 import { useAuth } from '../../../contexts/AuthContext';
 import Icon from '../../../components/Icon';
 import SettingsActiveItem from '../components/SettingsActiveItem';
 import { useNavigation } from '@react-navigation/native';
+import { useGetFoodImage } from '../../Foods/hooks/useGetFoodImage';
 
 const Settings = () => {
    const { user } = useAuth();
@@ -17,15 +17,12 @@ const Settings = () => {
       setActiveNavItem(item.name);
    };
 
+   const image = useGetFoodImage('pizza_image.jpg');
+
    if (mobileView) {
       return (
          <View>
-            <LinearGradient
-               style={styles.headerContainer}
-               start={{ x: 0, y: 0 }}
-               end={{ x: 1, y: 1 }}
-               colors={[style['color-primary'], style['color-primary-tint']]}
-            >
+            <ImageBackground source={image} resizeMode='cover'>
                <View style={styles.header}>
                   <TouchableOpacity onPress={() => navigation.goBack()} style={styles.goBack}>
                      <Icon name='close-circle-outline' form={false} style={styles.icon} />
@@ -33,7 +30,7 @@ const Settings = () => {
                   <Text style={styles.userName}>Welcome {user.fullName}</Text>
                   <Text style={styles.points}>Available points: {user.points}</Text>
                </View>
-            </LinearGradient>
+            </ImageBackground>
             <View style={[styles.sidebar, { marginHorizontal: 20 }]}>
                <TouchableOpacity style={[styles.sidebarGroup, { justifyContent: 'space-between' }]}>
                   <View style={styles.sidebarGroupItem}>
@@ -77,20 +74,17 @@ const Settings = () => {
 
    return (
       <View>
-         <LinearGradient
-            style={styles.headerContainer}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-            colors={[style['color-primary'], style['color-primary-tint']]}
-         >
+         <ImageBackground source={image} resizeMode='cover' style={{ height: 250 }}>
             <View style={styles.header}>
                <TouchableOpacity onPress={() => navigation.goBack()} style={styles.goBack}>
                   <Icon name='close-circle-outline' form={false} style={styles.icon} />
                </TouchableOpacity>
-               <Text style={styles.userName}>Welcome {user.fullName}</Text>
-               <Text style={styles.points}>Available points: {user.points}</Text>
+               <View style={styles.headerWrapper}>
+                  <Text style={styles.userName}>Welcome {user.fullName}</Text>
+                  <Text style={styles.points}>Available points: {user.points}</Text>
+               </View>
             </View>
-         </LinearGradient>
+         </ImageBackground>
 
          <View style={styles.settingsContainer}>
             <View
@@ -142,6 +136,15 @@ const styles = StyleSheet.create({
    headerContainer: {
       height: Dimensions.get('screen').height / 5,
    },
+   headerWrapper: {
+      width: '40%',
+      alignItems: 'center',
+      paddingHorizontal: 20,
+      paddingVertical: 10,
+      borderRadius: style['default-border-radius'],
+      backgroundColor: style['color-black'],
+      opacity: 0.7,
+   },
    header: {
       flex: 1,
       justifyContent: 'flex-end',
@@ -150,10 +153,11 @@ const styles = StyleSheet.create({
    },
    userName: {
       fontSize: 26,
-      color: style['color-secondary'],
+      color: style['color-light-grey'],
    },
    points: {
       fontSize: 22,
+      color: style['color-light-grey'],
    },
 
    settingsContainer: {
@@ -196,7 +200,7 @@ const styles = StyleSheet.create({
    },
    icon: {
       fontSize: 34,
-      color: style['color-secondary'],
+      color: style['color-light-grey'],
    },
 });
 export default Settings;

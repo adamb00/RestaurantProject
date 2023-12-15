@@ -3,8 +3,7 @@ import { NextFunction, Request, Response } from 'express';
 
 import APIFeatures from './apiFeatures';
 import AppError from './appError';
-import Ad from '../models/AdModel';
-import { Model, Document, IfAny, Require_id } from 'mongoose';
+import { Model, Document } from 'mongoose';
 
 export const getAll = <T extends Document>(Model: Model<T>, filterFn?: (req: Request) => object) => {
    return catchAsync(async (req: Request, res: Response, _next: NextFunction): Promise<void> => {
@@ -38,11 +37,22 @@ export const createOne = <T extends Document>(Model: Model<T>, customizeRequestB
 
       try {
          let doc;
+         let data = req.body;
+
+         if (Model.modelName === 'Food') {
+            const parsedPrice = JSON.parse(data.price);
+
+            data = {
+               ...data,
+               price: parsedPrice,
+            };
+         }
 
          if (Model.modelName === 'Ad') {
-            const adData = { ...req.body, expirationDate: new Date(Date.now() + 12 * 60 * 60 * 1000) };
-            doc = await Model.create(adData);
-         } else doc = await Model.create(req.body);
+            data = { ...data, expirationDate: new Date(Date.now() + 12 * 60 * 60 * 1000) };
+         }
+
+         doc = await Model.create(data);
 
          res.status(201).json({
             status: 'success',

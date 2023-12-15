@@ -19,6 +19,7 @@ import { useAuth } from '../../../contexts/AuthContext';
 import { useLogoutUserIfTokenExpired } from '../hooks/useLogoutUserIfTokenExpired';
 import Icon from '../../../components/Icon';
 import { useTogglePasswordVisibility } from '../hooks/useTogglePasswordVisibility';
+import { useFacebookLogin } from '../hooks/useFacebookLogin';
 
 const SignIn = ({ navigation }) => {
    const { control, handleSubmit } = useForm();
@@ -26,6 +27,16 @@ const SignIn = ({ navigation }) => {
    const { signin } = useAuth();
    const { singoutUser } = useLogoutUser();
    const { isPasswordVisible, togglePasswordVisibility } = useTogglePasswordVisibility(false);
+
+   const { request, promptAsync } = useFacebookLogin();
+
+   const handleFacebookLogin = async () => {
+      const res = await promptAsync();
+      if (res.type !== 'success') {
+         Toast.show({ type: 'error', text1: 'Uh-oh! Something went wrong! 🤯' });
+         return;
+      }
+   };
 
    const onButtonPressed = data => {
       loginUser(
@@ -81,6 +92,9 @@ const SignIn = ({ navigation }) => {
                </View>
                <Button onLoading={isLogging} handleSubmit={handleSubmit(onButtonPressed)}>
                   Sign In
+               </Button>
+               <Button onLoading={!request} handleSubmit={handleFacebookLogin}>
+                  Log in with facebook
                </Button>
             </View>
             <ButtonCircle handleSubmit={() => navigation.navigate('SignUp')}>

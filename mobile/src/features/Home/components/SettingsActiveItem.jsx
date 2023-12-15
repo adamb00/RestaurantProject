@@ -28,7 +28,7 @@ const SettingsActiveItem = ({ activeNavItem }) => {
    if (activeNavItem === 'Personal Details') {
       return <PersonalDetails control={control} handleSave={handleSave} handleSubmit={handleSubmit} />;
    } else if (activeNavItem === 'Security') {
-      return <Security control={control} handleSave={handleSave} handleSubmit={handleSubmit} />;
+      return <Security control={control} handleSave={handleSave} handleSubmit={handleSubmit} userType={user.type} />;
    } else if (activeNavItem === 'User Points') {
       // TODO USER POINTS
    } else if (activeNavItem === 'Coupons') {
