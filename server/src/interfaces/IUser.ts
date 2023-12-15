@@ -16,4 +16,5 @@ export default interface IUser extends Document {
    points: number;
    birthday: Date;
    coupons: [{ name: string; discount: number; active: boolean }];
+   type: string;
 }

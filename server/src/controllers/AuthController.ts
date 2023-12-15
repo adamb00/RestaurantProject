@@ -48,33 +48,76 @@ export default class AuthController {
       }
    });
 
-   public signin = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-      const { email, password } = req.body;
+   public signin = catchAsync(async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+      const { email, password, type } = req.body;
 
-      if (!email || !password) return next(new AppError('Please provide us your email and password.', 400));
-
-      const user: UserType | null = await User.findOne({ email }).select('+password');
-
-      if (!user || user === null) {
-         res.status(404).json({
+      if ((!email || !password) && type !== 'facebook') {
+         res.status(400).json({
             status: 'error',
-            message: 'No user found with this email',
+            message: 'Please provide us your email and password.',
          });
-         return next(new AppError('No user found with this email.', 404));
+         return next(new AppError('Please provide us your email and password.', 400));
       }
 
-      if (!(await correctPassword(password, user.password))) {
-         res.status(401).json({
-            status: 'error',
-            message: 'Incorrect password',
-         });
-         return next(new AppError('Incorrect password.', 401));
+      let user: UserType | null;
+
+      if (type !== 'facebook') {
+         user = await User.findOne({ email }).select('+password');
+
+         if (!user) {
+            res.status(404).json({
+               status: 'error',
+               message: 'No user found with this email',
+            });
+            return next(new AppError('No user found with this email.', 404));
+         }
+
+         if (!(await correctPassword(password, user.password))) {
+            res.status(401).json({
+               status: 'error',
+               message: 'Incorrect password',
+            });
+            return next(new AppError('Incorrect password.', 401));
+         }
+      } else {
+         user = await User.findOne({ email });
+
+         if (!user) {
+            user = await User.create(req.body);
+         }
       }
 
       await createAndSendToken(user, 200, req, res);
-
       req.user = user;
    });
+
+   // public signin = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+   //    const { email, password } = req.body;
+
+   //    if (!email || !password) return next(new AppError('Please provide us your email and password.', 400));
+
+   //    const user: UserType | null = await User.findOne({ email }).select('+password');
+
+   //    if (!user || user === null) {
+   //       res.status(404).json({
+   //          status: 'error',
+   //          message: 'No user found with this email',
+   //       });
+   //       return next(new AppError('No user found with this email.', 404));
+   //    }
+
+   //    if (!(await correctPassword(password, user.password))) {
+   //       res.status(401).json({
+   //          status: 'error',
+   //          message: 'Incorrect password',
+   //       });
+   //       return next(new AppError('Incorrect password.', 401));
+   //    }
+
+   //    await createAndSendToken(user, 200, req, res);
+
+   //    req.user = user;
+   // });
 
    public signout = (_req: Request, res: Response) => {
       res.cookie('jwt', 'loggedout', {

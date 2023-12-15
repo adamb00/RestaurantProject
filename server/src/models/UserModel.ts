@@ -20,21 +20,31 @@ const userSchema: Schema = new Schema<IUser>({
       type: String,
       default: 'User',
    },
+   type: String,
    password: {
       type: String,
       minlength: 8,
       select: false,
-      required: [true, 'Please, provide a password.'],
+      required: function (this: UserType) {
+         return this.type !== 'facebook';
+      },
    },
    passwordAgain: {
       type: String,
-      required: [true, 'Please, confirm your password.'],
-      validate: {
-         validator: function (this: UserType, el: string): boolean {
-            return el === this.password;
+      validate: [
+         {
+            validator: function (this: UserType, el: string): boolean {
+               return el === this.password;
+            },
+            message: 'Passwords are not the same.',
          },
-         message: 'Passwords are not the same.',
-      },
+         {
+            validator: function (this: UserType): boolean {
+               return this.type !== 'facebook' ? true : this.password === undefined;
+            },
+            message: 'Please confirm your password.',
+         },
+      ],
    },
    passwordChangedAt: Date,
    passwordResetToken: String,
